@@ -1,0 +1,289 @@
+@font-face {
+    font-family: 'Gilroy-Bold';
+    src: url("fonts/Gilroy-Bold.ttf") format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Gilroy-Regular';
+    src: url("fonts/Gilroy-Regular.ttf") format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Gilroy-Light';
+    src: url("fonts/Gilroy-Light.ttf") format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+body, html {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 100%;
+    font-family: "Gilroy-Bold";
+    color: #07302D; /* Цвет текста */
+    display: flex;
+    justify-content: center; /* Центрирование содержимого по горизонтали */
+    flex-direction: column; /* Вертикальное размещение элементов */
+    align-items: center; /* Центрирование содержимого по вертикали */
+    overflow: hidden;
+}
+
+.picture-bg {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1; /* Убедитесь, что изображение на заднем плане */
+    object-fit: cover; /* Заполнение фона */
+}
+
+.main-page {
+    display: flex;
+    flex-direction: column; /* Вертикальное размещение элементов */
+    justify-content: center; /* Центрирование элементов по вертикали */
+    align-items: center; /* Центрирование элементов по горизонтали */
+    height: 100vh; /* Занимает всю высоту окна браузера */
+    text-align: center; /* Центрирование текста */
+    gap: 100px; /* Расстояние между элементами, установлено в пикселях */
+}
+
+.footer {
+    display: flex;
+    justify-content: center; /* Центрирует логотип по горизонтали */
+    align-items: center; /* Центрирует логотип по вертикали (если футер имеет высоту) */
+}
+
+.footer-logo {
+    width: 20%; /* Ширина логотипа относительно контейнера */
+    padding: 30px; /* Паддинг со всех сторон */
+    height: auto; /* Высота изменяется пропорционально ширине */
+    object-fit: cover; /* Сохранение соотношения сторон и обрезка */
+}
+
+.login-container {
+    background: rgba(255, 255, 255, 1); /* Белый фон */
+    padding-top: 80px;
+    padding-bottom: 80px;
+    padding-left: 40px;
+    padding-right: 40px;
+    border-radius: 20px; /* Скругление углов */
+    text-align: center;
+    width: 400px; /* Ширина контейнера */
+    max-width: 90%; /* Максимальная ширина для адаптивности */
+    height: auto; /* Высота будет изменяться в зависимости от содержимого */
+    box-sizing: border-box; /* Включает паддинг и границы в ширину и высоту */
+    display: flex;
+    flex-direction: column; /* Вертикальное размещение элементов */
+    gap: 20px; /* Расстояние между элементами внутри формы */
+}
+
+.login-container h2 {
+    margin: 0; /* Убираем отступы */
+    font-size: 24px; /* Размер шрифта заголовка */
+    font-family: "Gilroy-Bold"; /* Шрифт заголовка */
+}
+
+.login-container form {
+    display: flex;
+    flex-direction: column; /* Вертикальное размещение элементов формы */
+    gap: 15px; /* Расстояние между элементами формы */
+}
+
+.login-container input[type="text"],
+.login-container input[type="password"] {
+    font-size: 15px; /* Размер шрифта */
+    width: 100%; /* Заполняет всю ширину контейнера */
+    height: 50px; /* Высота поля ввода */
+    padding: 0 15px; /* Паддинг внутри поля ввода */
+    border: 2px solid #868686; /* Цвет и ширина границы */
+    border-radius: 10px; /* Скругление углов */
+    font-family: "Gilroy-Regular"; /* Шрифт для полей ввода */
+    box-sizing: border-box; /* Включает паддинг и границы в ширину */
+    transition: box-shadow 0.3s ease; /* Плавный переход для эффекта тени */
+}
+
+/* Эффект при наведении на поля ввода */
+.login-container input[type="text"]:hover,
+.login-container input[type="password"]:hover {
+    box-shadow: inset 0px 0px 8px rgba(0, 0, 0, 0.1); /* Внутренняя тень */
+}
+
+.login-container input[type="text"]:focus,
+.login-container input[type="password"]:focus {
+    border-color: #03BE93; /* Цвет границы при фокусе */
+    outline: none; /* Убирает стандартное выделение браузера */
+}
+
+.checkbox-wrapper-4 * {
+    box-sizing: border-box;
+  }
+
+  .checkbox-wrapper-4 .cbx {
+    -webkit-user-select: none;
+    user-select: none;
+    cursor: pointer;
+    padding: 6px 8px;
+    padding-bottom: 40px;
+    border-radius: 6px;
+    overflow: hidden;
+    transition: all 0.2s ease;
+    display: inline-block;
+  }
+
+  .checkbox-wrapper-4 .cbx:not(:last-child) {
+    margin-right: 6px;
+  }
+
+  .checkbox-wrapper-4 .cbx span {
+    float: left;
+    vertical-align: middle;
+    transform: translate3d(0, 0, 0);
+  }
+
+  .checkbox-wrapper-4 .cbx span:first-child {
+    position: relative;
+    width: 18px;
+    height: 18px;
+    border-radius: 4px;
+    transform: scale(1);
+    border: 1px solid #cccfdb;
+    transition: all 0.2s ease;
+    box-shadow: 0 1px 1px rgba(43, 43, 43, 0.03);
+  }
+
+  .checkbox-wrapper-4 .cbx span:first-child svg {
+    position: absolute;
+    top: 3px;
+    left: 2px;
+    fill: none;
+    stroke: #fff;
+    stroke-width: 2;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    stroke-dasharray: 16px;
+    stroke-dashoffset: 16px;
+    transition: all 0.3s ease;
+    transition-delay: 0.1s;
+    transform: translate3d(0, 0, 0);
+  }
+
+  .checkbox-wrapper-4 .cbx span:last-child {
+    padding-left: 8px;
+    line-height: 18px;
+  }
+
+  .checkbox-wrapper-4 .cbx:hover span:first-child {
+    border-color: #03BE93;
+  }
+
+  .checkbox-wrapper-4 .inp-cbx {
+    position: absolute;
+    visibility: hidden;
+  }
+
+  .checkbox-wrapper-4 .inp-cbx:checked + .cbx span:first-child {
+    background: #03BE93;
+    border-color: #03BE93;
+    animation: wave-4 0.4s ease;
+  }
+
+  .checkbox-wrapper-4 .inp-cbx:checked + .cbx span:first-child svg {
+    stroke-dashoffset: 0;
+  }
+
+  .checkbox-wrapper-4 .inline-svg {
+    position: absolute;
+    width: 0;
+    height: 0;
+    pointer-events: none;
+    user-select: none;
+  }
+
+  @media screen and (max-width: 640px) {
+    .checkbox-wrapper-4 .cbx {
+      width: 100%;
+      display: inline-block;
+    }
+  }
+  @-moz-keyframes wave-4 {
+    50% {
+      transform: scale(0.9);
+    }
+  }
+  @-webkit-keyframes wave-4 {
+    50% {
+      transform: scale(0.9);
+    }
+  }
+  @-o-keyframes wave-4 {
+    50% {
+      transform: scale(0.9);
+    }
+  }
+  @keyframes wave-4 {
+    50% {
+      transform: scale(0.9);
+    }
+  }
+
+.cbx {
+    margin: 10px 0; /* Отступы вокруг чекбокса */
+    font-size: 15px; /* Размер шрифта */
+    color: #07302D; /* Цвет текста */
+    font-family: 'Gilroy-Light'; /* Шрифт для чекбокса */
+}
+
+.login-container button {
+    font-size: 18px; /* Размер шрифта кнопки */
+    padding: 10px 20px; /* Паддинг внутри кнопки */
+    background-color: #03BE93; /* Цвет фона кнопки */
+    color: white; /* Цвет текста кнопки */
+    border: none; /* Убираем границу */
+    border-radius: 40px; /* Скругление углов кнопки */
+    cursor: pointer; /* Указатель при наведении */
+    font-family: 'Gilroy-Bold', sans-serif; /* Шрифт кнопки */
+    width: 100%; /* Ширина кнопки */
+    height: 50px; /* Высота кнопки */
+    transition: background-color 0.3s ease, color 0.3s ease; /* Плавный переход при наведении */
+}
+
+.login-container button:hover {
+    background-color: #ffffff; /* Цвет фона при наведении */
+    color: #03BE93; /* Цвет текста при наведении */
+    border: 1px solid #CCCCCC; /* Граница при наведении */
+}
+
+/* Стили для ссылки как кнопки */
+.btn-guest {
+    font-size: 18px; /* Размер шрифта кнопки */
+    padding: 0; /* Убираем внутренние отступы */
+    background-color: #03BE93; /* Цвет фона кнопки */
+    color: white; /* Цвет текста кнопки */
+    border: 1px solid transparent; /* Зарезервированная прозрачная граница */
+    border-radius: 40px; /* Скругление углов кнопки */
+    cursor: pointer; /* Указатель при наведении */
+    font-family: 'Gilroy-Bold', sans-serif; /* Шрифт кнопки */
+    width: 100%; /* Ширина кнопки */
+    height: 50px; /* Высота кнопки */
+    transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease; /* Плавный переход при наведении */
+    text-decoration: none; /* Убираем подчеркивание */
+    /* Flexbox для центрирования текста */
+    display: flex;
+    align-items: center; /* Вертикальное центрирование */
+    justify-content: center; /* Горизонтальное центрирование */
+
+    box-sizing: border-box; /* Включаем границы в общие размеры элемента */
+}
+
+    /* Стили при наведении */
+    .btn-guest:hover {
+        background-color: #ffffff; /* Цвет фона при наведении */
+        color: #03BE93; /* Цвет текста при наведении */
+        border-color: #CCCCCC; /* Граница при наведении */
+    }

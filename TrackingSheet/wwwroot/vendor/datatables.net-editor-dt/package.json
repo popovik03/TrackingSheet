@@ -1,0 +1,24 @@
+{
+  "name": "datatables.net-editor-dt",
+  "version": "2.2.0",
+  "description": "DataTables Editor - DataTables styling",
+  "main": "js/editor.dataTables.js",
+  "module": "js/editor.dataTables.mjs",
+  "style": "css/editor.dataTables.css",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "github.com:DataTables/Dist-Editor-DataTables.git"
+  },
+  "keywords": [
+    "DataTables",
+    "Editor"
+  ],
+  "dependencies": {
+    "datatables.net-editor": "^2.2.0"
+  },
+  "author": "SpryMedia Ltd",
+  "license": "SEE LICENSE IN License.md"
+}

@@ -1,0 +1,235 @@
+﻿/* Общие стили для модальных окон */
+.modal.fade .modal-dialog {
+	height: auto;
+    display: flex;
+    align-items: center; /* Центрирование по вертикали */
+    justify-content: center; /* Центрирование по горизонтали */
+    transform: scale(0.7);
+    opacity: 0;
+    transition: transform 0.3s ease-out, opacity 0.3s ease-out;
+    height: -webkit-fill-available;
+	font-family: 'Gilroy-Medium';
+}
+
+/* Состояние при открытии */
+.modal.show .modal-dialog {
+    transform: scale(1);
+    opacity: 1;
+}
+
+.modal-content {
+    background-color: #fefefe; /* Белый фон */
+    padding: 10px; /* Увеличенный внутренний отступ */
+    border: 1px solid #888;
+    width: 100%;
+    max-width: 500px; /* Максимальная ширина */
+    border-radius: 20px; /* Сглаженные углы */
+    box-shadow: 0 5px 15px rgba(0,0,0,0.3); /* Тень для объема */
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: stretch; /* Растягиваем содержимое по ширине */
+    margin-top: 0; /* Убираем отступ сверху */
+}
+
+
+/* Стилизация кнопки закрытия (крестик) */
+.close,
+.close-modal {
+    color: white;
+    font-size: 28px;
+    font-weight: bold;
+    cursor: pointer;
+    background: transparent;
+    border: none;
+    position: absolute;
+    top: 35px;
+    right: 42px;
+    z-index: 1000;
+}
+
+    .close:hover,
+    .close:focus,
+    .close-modal:hover,
+    .close-modal:focus {
+        color: lightgrey;
+        text-decoration: none;
+        outline: none;
+    }
+
+/* Заголовок модального окна */
+.modal-title {
+    margin: 0;
+    width: 100%;
+    font-size: 20px;
+    color: #fff;
+    text-align: center;
+    background: #114439;
+    border-radius: 15px;
+    padding: 10px;
+}
+
+/* Стилизация форм внутри модальных окон */
+.form-group label {
+    margin-bottom: 0px;
+    font-weight: 600;
+    color: #8a94a6;
+    font-family: Gilroy-SemiBold;
+    font-size: 16px;
+}
+
+.form-group input[type="text"],
+.form-group input[type="number"],
+.form-group input[type="datetime-local"],
+.form-group input[type="date"],
+.form-group textarea,
+.form-group select {
+    padding: 4px 12px;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    font-size: 16px;
+    transition: border-color 0.3s;
+    font-size: 14px;
+    height: 30px;
+}
+
+    .form-group input[type="text"]:focus,
+    .form-group input[type="number"]:focus,
+    .form-group input[type="date"]:focus,
+    .form-group input[type="datetime-local"]:focus,
+    .form-group textarea:focus,
+    .form-group select:focus {
+        border-color: #33ebbd;
+        border: 1px solid #ccc;
+    }
+
+    /* Стили для наведения мыши */
+    .form-group input[type="text"]:hover,
+    .form-group input[type="number"]:hover,
+    .form-group input[type="datetime-local"]:hover,
+    .form-group input[type="date"]:hover,
+    .form-group textarea:hover,
+    .form-group select:hover {
+        border-color: #03be93; /* Цвет границы при наведении */
+    }
+
+#editTaskDescription {
+    height: 80px; /* Увеличиваем высоту в два раза */
+}
+
+
+.modal-header,
+.modal-footer {
+    border-top: 0px;
+    border-bottom: 0px;
+}
+
+/* Стилизация кнопок внутри модальных окон */
+.modal-footer,
+.modal-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin-top: 0px;
+    align-items: center;
+}
+
+.btn-primary {
+    background-color: #03be93; /* Зелёный фон */
+    color: #fff;
+    border-radius: 50px;
+    padding: 10px 20px;
+    border: 1px solid #ffffff;
+    transition: background-color 0.3s, color 0.3s, border 0.3s;
+    cursor: pointer;
+}
+
+    .btn-primary:hover {
+        background-color: #ffffff;
+        color: #03be93;
+        border: 1px solid #CCCCCC;
+    }
+
+    /* Переопределение стилей при нажатии (active) */
+    .btn-primary:active,
+    .btn-primary.active {
+        background-color: #02a684 !important; /* Темно-зелёный фон при нажатии */
+        color: #fff !important;
+        border: 1px solid #02a684 !important; /* Соответствующая граница */
+        box-shadow: none !important; /* Убирает тень */
+        outline: none !important; /* Убирает обводку */
+    }
+
+    /* Переопределение стилей фокуса */
+    .btn-primary:focus {
+        box-shadow: none !important; /* Убирает стандартную тень фокуса */
+        outline: none !important; /* Убирает стандартную обводку фокуса */
+    }
+
+    /* (Опционально) Переопределение стилей при наведении на фокус */
+    .btn-primary:hover:focus {
+        box-shadow: none !important;
+        outline: none !important;
+    }
+
+
+
+
+/* Медиа-запросы для адаптивности */
+@media (max-width: 800px) {
+    .modal-content {
+        max-width: 90%; /* Уменьшаем максимальную ширину */
+    }
+
+    .btn-primary {
+        font-size: 16px;
+        padding: 8px 16px;
+    }
+
+    .btn-secondary {
+        font-size: 16px;
+        padding: 8px 16px;
+    }
+
+    .file-item {
+        width: 80px;
+        height: 80px;
+    }
+}
+
+@media (max-width: 600px) {
+    .modal-content {
+        max-width: 95%; /* Еще меньше на малых экранах */
+    }
+
+    .btn-primary {
+        font-size: 14px;
+        padding: 6px 12px;
+    }
+
+    .btn-secondary {
+        font-size: 14px;
+        padding: 6px 12px;
+    }
+
+    .file-item {
+        width: 60px;
+        height: 60px;
+    }
+}
+
+
+.custom-row {
+    margin-left: -5px; /* Уменьшение внешних отступов (глобальный отступ сетки Bootstrap) */
+    margin-right: -5px;
+}
+
+.custom-column {
+    padding-left: 5px; /* Уменьшение внутренних отступов между колонками */
+    padding-right: 5px;
+}
+
+
+.form-group textarea {
+	min-height: 100px;
+}

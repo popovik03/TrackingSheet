@@ -1,0 +1,227 @@
+﻿@model System.Collections.Generic.List<TrackingSheet.Models.ViewModels.ProblemTypeStatisticsViewModel>
+
+
+@{
+    ViewData["Title"] = "Статистика обращений";
+
+    // Подсчет суммарного количества
+    int totalCount = Model?.Sum(item => item.Count) ?? 0;
+    int totalSuccessCount = Model?.Sum(item => item.SuccessCount) ?? 0;
+    int totalFailCount = Model?.Sum(item => item.FailCount) ?? 0;
+    int totalSavedNPTCount = Model?.Sum(item => item.SavedNPTCount) ?? 0;
+    int totalSuccessFailCount = totalSuccessCount + totalFailCount;
+
+    // Сериализуем модель в JSON для использования в JavaScript
+    var jsonSettings = new Newtonsoft.Json.JsonSerializerSettings
+            {
+                ContractResolver = new Newtonsoft.Json.Serialization.CamelCasePropertyNamesContractResolver()
+            };
+    var jsonData = Newtonsoft.Json.JsonConvert.SerializeObject(Model, jsonSettings);
+
+    // Получаем выбранные значения года и квартала из ViewData
+    var selectedYear = ViewData["SelectedYear"] != null ? ViewData["SelectedYear"].ToString() : DateTime.Now.Year.ToString();
+    var selectedQuarter = ViewData["SelectedQuarter"] != null ? ViewData["SelectedQuarter"].ToString() : "1";
+}
+
+@{
+    // Получаем выбранное значение месяца из ViewData
+    var selectedMonth = ViewData["SelectedMonth"] != null ? ViewData["SelectedMonth"].ToString() : "0";
+}
+
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>@ViewData["Title"]</title>
+    <script src="https://cdn.amcharts.com/lib/5/index.js" defer></script>
+    <script src="https://cdn.amcharts.com/lib/5/percent.js" defer></script>
+    <script src="https://cdn.amcharts.com/lib/5/xy.js" defer></script>
+    <script src="https://cdn.amcharts.com/lib/5/themes/Animated.js" defer></script>
+    <script src="//cdn.amcharts.com/lib/5/themes/Frozen.js" defer></script>
+</head>
+<body>
+
+    <h1>Статистика по обращениям</h1>
+    <h2>
+        <label>Квартальная инфографика</label>
+    </h2>
+
+    <section class="stat_section">
+        <form asp-controller="IncidentsStatistics" asp-action="IncidentsStatistics" method="post" class="table__header">
+
+            <div class="year-group">
+                <label for="year">Год</label>
+                <svg class="icon_calendar" viewBox="0 0 24 24">
+                    <path d="M21 10H3M16 2V6M8 2V6M10.5 14L12 13V18M10.75 18H13.25M7.8 22H16.2C17.8802 22 18.7202 22 19.362 21.673C19.9265 21.3854 20.3854 20.9265 20.673 20.362C21 19.7202 21 18.8802 21 17.2V8.8C21 7.11984 21 6.27976 20.673 5.63803C20.3854 5.07354 19.9265 4.6146 19.362 4.32698C18.7202 4 17.8802 4 16.2 4H7.8C6.11984 4 5.27976 4 4.63803 4.32698C4.07354 4.6146 3.6146 5.07354 3.32698 5.63803C3 6.27976 3 7.11984 3 8.8V17.2C3 18.8802 3 19.7202 3.32698 20.362C3.6146 20.9265 4.07354 21.3854 4.63803 21.673C5.27976 22 6.11984 22 7.8 22Z" />
+                </svg>
+                <input type="number" id="year" name="year" class="form-control" value="@selectedYear" required onchange="this.form.submit();" />
+            </div>
+
+            <div class="month-group">
+                <label for="month">Месяц</label>
+                <select id="month" name="month" class="form-control" onchange="this.form.submit();">
+                    @if (selectedMonth == "0")
+                    {
+                        <option value="0" selected>Все месяцы</option>
+                    }
+                    else
+                    {
+                        <option value="0">Все месяцы</option>
+                    }
+                    @for (int i = 1; i <= 12; i++)
+                    {
+                        var monthName = System.Globalization.CultureInfo.GetCultureInfo("ru-RU").DateTimeFormat.GetMonthName(i);
+                        if (selectedMonth == i.ToString())
+                        {
+                            <option value="@i" selected>@monthName</option>
+                        }
+                        else
+                        {
+                            <option value="@i">@monthName</option>
+                        }
+                    }
+                </select>
+            </div>
+
+
+
+            <!-- Блок переключения кварталов -->
+            <div class="toggle-switch">
+                @for (int i = 1; i <= 4; i++)
+                {
+                    <input type="radio" id="@($"{i}-quart")" name="quarter" value="@i" @(selectedQuarter == i.ToString() ? "checked" : "") onchange="this.form.submit();">
+                    <label for="@($"{i}-quart")" class="toggle-label">@($"{i}-й квартал")</label>
+                }
+
+                <!-- Опция для выбора всего года -->
+                <input type="radio" id="whole-year" name="quarter" value="0" @(selectedQuarter == "0" ? "checked" : "") onchange="this.form.submit();">
+                <label for="whole-year" class="toggle-label">Весь год</label>
+
+
+            </div>
+
+        </form>
+
+
+    </section>
+
+    @if (Model != null && Model.Any())
+    {
+        <div class="statistics_container">
+            <div class="table_container" style="width: 1300px; max-height: 100%">
+                <section class="table__body">
+                    <table style="font-size: 14px; line-height: 1.2;">
+                        <thead>
+                            <tr style="line-height: 1.2; font-size: 14px;">
+                                <th style="width: 20%; font-weight: bold;">Тип проблемы</th>
+                                <th style="width: 15%;">Количество обращений</th>
+                                <th style="width: 15%;">Закрытых</th>
+                                <th style="width: 15%;">Успешно</th>
+                                <th style="width: 15%;">Неуспешно</th>
+                                <th style="width: 20%;">Сохраненное НПВ</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model)
+                            {
+                                <tr style="line-height: 1.2;">
+                                    <td style="padding: 4px; font-weight: bold;">
+                                        <a href="/Incidents/Index?problemType=@Uri.EscapeDataString(item.ProblemType)">
+                                            @item.ProblemType
+                                        </a>
+                                    </td>
+
+                                    <td style="padding: 4px;">@item.Count</td>
+                                    <td style="padding: 4px;">@(item.SuccessCount + item.FailCount)</td>
+                                    <td style="padding: 4px;"><p class="status success">@item.SuccessCount</p></td>
+                                    <td style="padding: 4px;"><p class="status failed">@item.FailCount</p></td>
+                                    <td style="padding: 4px;">@item.SavedNPTCount</td>
+                                </tr>
+                            }
+                            <tr style="line-height: 1.2;">
+                                <td><strong>Итого</strong></td>
+                                <td><strong>@totalCount</strong></td>
+                                <td><strong>@totalSuccessFailCount</strong></td>
+                                <td><p class="status success"><strong>@totalSuccessCount</strong></p></td>
+                                <td><p class="status failed"><strong>@totalFailCount</strong></p></td>
+                                <td><strong>@totalSavedNPTCount</strong></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </section>
+            </div>
+            
+            <div class="chart_container">
+                <div id="pie_chart">
+                    <script src="~/js/pie_chart_statistic.js" defer></script>
+                </div>
+
+                <div id="bar_chart">
+                    <script src="~/js/bar_chart_statistic.js" defer></script>
+                </div>
+            </div>
+        </div>
+
+        <!-- Передаем данные модели в JavaScript -->
+    <script>
+        var chartData = @Html.Raw(jsonData);
+    </script>
+
+
+    }
+    else
+    {
+       
+    }
+
+    <script>
+        document.getElementById('month').addEventListener('change', function () {
+            if (this.value != "0") {
+                // Сбросить выбор квартала
+                var quarterRadios = document.getElementsByName('quarter');
+                for (var i = 0; i < quarterRadios.length; i++) {
+                    quarterRadios[i].checked = false;
+                }
+                // Установить значение квартала в 0
+                var hiddenQuarterInput = document.querySelector('input[name="quarter"][type="hidden"]');
+                if (!hiddenQuarterInput) {
+                    hiddenQuarterInput = document.createElement('input');
+                    hiddenQuarterInput.type = 'hidden';
+                    hiddenQuarterInput.name = 'quarter';
+                    hiddenQuarterInput.value = '0';
+                    this.form.appendChild(hiddenQuarterInput);
+                }
+            } else {
+                // Удаляем скрытое поле quarter, если выбрано "Все месяцы"
+                var hiddenQuarterInput = document.querySelector('input[name="quarter"][type="hidden"]');
+                if (hiddenQuarterInput) {
+                    hiddenQuarterInput.remove();
+                }
+            }
+        });
+
+        var quarterRadios = document.getElementsByName('quarter');
+        for (var i = 0; i < quarterRadios.length; i++) {
+            quarterRadios[i].addEventListener('change', function () {
+                if (this.checked) {
+                    // Сбросить выбор месяца
+                    var monthSelect = document.getElementById('month');
+                    monthSelect.value = "0";
+
+                    // Удаляем скрытое поле quarter, если оно есть
+                    var hiddenQuarterInput = document.querySelector('input[name="quarter"][type="hidden"]');
+                    if (hiddenQuarterInput) {
+                        hiddenQuarterInput.remove();
+                    }
+
+                    // Отправить форму
+                    this.form.submit();
+                }
+            });
+        }
+
+    </script>
+
+</body>
+</html>

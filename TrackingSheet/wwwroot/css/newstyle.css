@@ -1,0 +1,464 @@
+﻿.ql-editor {
+    font-family: 'Gilroy-Medium' !important; /* Укажите нужный шрифт */
+    font-size: 16px !important;
+}
+
+/* Стили для меню настроек */
+.settings-menu {
+    position: absolute;
+    overflow: hidden;
+    top: 58px;
+    right: 40px;
+    width: 250px;
+    gap: 20px;
+    background-color: #ffffff;
+    border-bottom-left-radius: 15px;
+    border-bottom-right-radius: 15px;
+    box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.1);
+    z-index: 100;
+    opacity: 0;
+    visibility: hidden;
+    transition: max-height 0.5s ease, opacity 0.5s ease, visibility 0.5s;
+    display: flex;
+    flex-direction: column;
+}
+
+    .settings-menu.show {
+        max-height: 200px;
+        opacity: 1;
+        visibility: visible;
+    }
+
+.menu-item {
+    display: flex;
+    flex-direction: column;
+}
+
+.settings-menu ul {
+    list-style: none;
+    margin: 10px;
+}
+
+.settings-menu li {
+    margin: 15px;
+}
+
+    .settings-menu li a {
+        font-family: 'Gilroy-Medium', sans-serif;
+        color: #8A94A6;
+        text-decoration: none;
+        display: flex;
+        align-items: center;
+        padding: 7px;
+        border-radius: 5px;
+        transition: all 0.4s ease;
+    }
+
+        .settings-menu li.active a,
+        .settings-menu li a:hover {
+            font-family: 'Gilroy-SemiBold', sans-serif;
+            background-color: #fff;
+            color: #07302D;
+            transform: scale(1.1);
+            box-shadow: rgba(0, 0, 0, 0.02) 0px 1px 3px 0px, rgba(27, 31, 35, 0.15) 0px 0px 0px 0.7px;
+        }
+
+            .settings-menu li a:hover .icon_menu,
+            .settings-menu li.active .icon_menu {
+                stroke: #03BE93; /* Цвет обводки иконки при наведении на родительский элемент */
+            }
+
+/* Стили для скрытого файла input */
+#avatarUpload {
+    display: none; /* Скрываем стандартный инпут */
+}
+
+.change-avatar-link {
+    margin-top: 10px;
+}
+
+/* Стили для индикатора загрузки */
+.loading-overlay {
+    position: fixed; /* Фиксированное позиционирование для окна браузера */
+    top: 0;
+    left: 0;
+    width: 100%; /* Покрытие всей ширины экрана */
+    height: 100%; /* Покрытие всей высоты экрана */
+    background-color: rgba(0, 0, 0, 0.5); /* Полупрозрачный чёрный фон */
+    display: flex;
+    justify-content: center; /* Центрирование по горизонтали */
+    align-items: flex-start; /* Начинаем выравнивание по верхнему краю */
+    z-index: 9999; /* Высокий z-index, чтобы перекрывать другие элементы */
+}
+
+/* Контейнер для содержимого загрузки */
+.loading-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    color: #fff; /* Белый цвет текста */
+    font-size: 1.2em;
+    margin-top: 45vh; /* Отступ от верхнего края */
+}
+
+/* Спиннер */
+.spinner {
+    border: 8px solid #f3f3f3; /* Светло-серый цвет */
+    border-top: 8px solid #03be92; /* Зеленый цвет */
+    border-radius: 50%;
+    width: 60px;
+    height: 60px;
+    animation: spin 1s linear infinite; /* Анимация вращения */
+    margin-bottom: 15px; /* Отступ снизу */
+}
+
+/* Ключевые кадры для анимации спиннера */
+@keyframes spin {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+.js-select {
+    padding: 6.3px;
+    border-radius: 11px;
+    border: 1px solid #d3d3d3;
+    color: #5c5c5c;
+    font-family: "Gilroy-Regular", sans-serif;
+    transition: border-color 0.3s ease; /* Плавный переход */
+    width: 100px;
+}
+
+    .js-select:hover,
+    .js-select:focus,
+    .js-select:active {
+        border-color: #9b9b9b; /* Цвет границы при наведении, фокусе и активности */
+    }
+
+.js-select {
+    border-radius: 8px;
+    padding: .2rem .5rem;
+    /* любые другие стили */
+}
+
+.day {
+    background-color: #fff5c2 !important;
+    color: #cd7a36 !important;
+}
+
+.night {
+    background-color: #7c8395 !important;
+    color: #fff !important;
+}
+
+.success {
+    background-color: #d1f0e2 !important;
+    color: #219b7f !important;
+}
+
+.failed {
+    background-color: #ffd5ce !important;
+    color: #c52046 !important;
+}
+
+.workinprogress {
+    background-color: #ffeece !important;
+    color: #ef9548 !important;
+}
+
+
+/* Общий стиль для всех кнопок */
+.custom-button {
+    padding: 10px 20px;
+    border: 2px solid transparent; /* Изначально границы прозрачные */
+    border-radius: 18px; /* Увеличен радиус для лучшего внешнего вида */
+    font-family: 'Gilroy-SemiBold', sans-serif;
+    font-size: 16px; /* Увеличен размер шрифта для лучшей читаемости */
+    cursor: pointer;
+    margin: 0; /* Удалены отступы */
+    transition: background-color 0.3s, color 0.3s, transform 0.2s, border-color 0.3s;
+    background-color: #34a87e; /* Начальный фон */
+    color: white; /* Начальный цвет текста */
+}
+
+    /* Стили при наведении на все кнопки */
+    .custom-button:hover {
+        background-color: #318767;
+    }
+
+
+.btn-edit-table {
+    background: none;
+    border: none;
+}
+
+.icon-edit,
+.icon-save-edit {
+    width: 50px;
+    height: auto;
+    fill: none;
+    stroke: #03BE93;
+    stroke-width: 2;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    transition: all .3s ease;
+    background-color: white;
+    box-shadow: rgba(0, 0, 0, 0.02) 0px 1px 3px 0px, rgba(27, 31, 35, 0.15) 0px 0px 0px 0.7px;
+    padding: 10px;
+    border-radius: 10px;
+}
+
+    .icon-edit:hover,
+    .icon-save-edit:hover {
+        stroke: white;
+        box-shadow: none;
+        background-color: #03BE93;
+    }
+
+.btn-edit-table .icon-edit {
+    opacity: 0.7;
+}
+
+    .btn-edit-table .icon-edit:hover {
+        opacity: 1;
+    }
+
+.icon-cancel {
+    width: 50px;
+    height: auto;
+    fill: none;
+    stroke: #e5525e;
+    stroke-width: 2;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    transition: all .3s ease;
+    background-color: white;
+    box-shadow: rgba(0, 0, 0, 0.02) 0px 1px 3px 0px, rgba(27, 31, 35, 0.15) 0px 0px 0px 0.7px;
+    padding: 10px;
+    border-radius: 10px;
+}
+
+    .icon-cancel:hover {
+        stroke: white;
+        box-shadow: none;
+        background-color: #e5525e;
+    }
+
+
+/* Фиксированное позиционирование для контейнера кнопок */
+.button-container-edit {
+    background: transparent;
+    position: sticky;
+    bottom: 50px;
+    right: 28px;
+    display: flex;
+    gap: 10px;
+    z-index: 9998;
+    padding: 0px;
+    border-radius: 48px;
+    margin-right: 20px;
+    transition: opacity 0.3s ease, transform 0.3s ease;
+    flex-direction: row-reverse;
+    align-items: center;
+    height: 0px;
+}
+
+    /* Увеличение размера текста для кнопок внутри контейнера */
+    .button-container-edit button {
+        font-size: 16px; /* Увеличен размер шрифта */
+    }
+
+/* Адаптивные стили для мобильных устройств */
+@media (max-width: 600px) {
+    .button-container-edit {
+        top: 10px;
+        right: 20px;
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .custom-button {
+        padding: 8px 16px;
+        font-size: 14px;
+    }
+
+    .table_container {
+        margin: 100px 10px 10px 10px;
+    }
+}
+
+.delete-btn-edit {
+    background-color: transparent; /* Красный цвет */
+    border: none;
+    padding: 5px 10px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.icon_delete {
+    width: 25px;
+    height: auto;
+    fill: none;
+    stroke: #e5525e;
+    stroke-width: 2;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    transition: all .3s ease;
+}
+
+    .icon_delete:hover {
+        stroke: #d63842;
+    }
+
+
+/* Ширина для полей поиска "Скважина" */
+#journal_table thead .search-row .well-search {
+    width: 250px; /* Увеличенная ширина для "Скважина" */
+}
+
+/* Ширина для полей поиска "Описание/Решение" */
+#journal_table thead .search-row .solution-search {
+    width: 100%; /* Увеличенная ширина для "Описание/Решение" */
+}
+
+.update-actions {
+    display: flex;
+    justify-content: flex-end; /* Иконки выравниваются по правому краю */
+    gap: 10px; /* Расстояние между иконками */
+    align-items: center; /* Вертикальное выравнивание иконок */
+}
+
+    .update-actions button {
+        background: none;
+        border: none;
+        cursor: pointer;
+        margin-right: 0px;
+    }
+
+.edit-solution-container {
+    margin-top: 10px;
+}
+
+.save-update-button,
+.cancel-update-button {
+    margin-top: 5px;
+    padding: 5px 10px;
+    cursor: pointer;
+}
+
+.save-update-button {
+    background-color: #28a745;
+    color: white;
+    border: none;
+    border-radius: 3px;
+}
+
+.cancel-update-button {
+    background-color: #dc3545;
+    color: white;
+    border: none;
+    border-radius: 3px;
+    margin-left: 5px;
+}
+
+.icon-update-edit {
+    width: 18px;
+    height: auto;
+    fill: none;
+    stroke: #697385;
+    stroke-width: 2;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    transition: all .3s ease;
+}
+
+.update-edit-header {
+    display: grid;
+    grid-template-columns: auto 1fr auto; /* Левый элемент, промежуточное пространство и правый элемент */
+    gap: 0px; /* Задаем расстояние между кнопками */
+    align-items: center; /* Вертикальное выравнивание по центру */
+}
+
+.journal-highlight {
+    background-color: yellow;
+    font-weight: bold;
+}
+
+.ql-editor {
+    box-sizing: border-box;
+    line-height: 1.42;
+    height: 100%;
+    max-height: 400px;
+    outline: none;
+    overflow-y: auto;
+    padding: 12px 15px;
+    tab-size: 4;
+    -moz-tab-size: 4;
+    text-align: left;
+    white-space: pre-wrap;
+    word-wrap: break-word;
+}
+
+
+/* Первый ряд заголовков */
+.table_container table.dataTable thead tr:nth-child(1) th {
+    position: sticky;
+    top: 0;
+    z-index: 20; /* Более высокий z-index для верхнего ряда */
+}
+
+/* Второй ряд заголовков */
+.table_container table.dataTable thead tr:nth-child(2) th {
+    position: sticky;
+    top: 0px; /* Высота первого ряда заголовков */
+    z-index: 10;
+}
+
+
+.table_container table.dataTable thead tr:nth-child(2) th {
+    position: sticky;
+    top: 0px;
+    z-index: 9999;
+}
+
+.display dataTable {
+    overflow: visible;
+}
+
+.table_container {
+    max-height: 99vh;
+    overflow-y: auto;
+}
+
+/* Стили для ссылок внутри таблицы статистики */
+.statistics_container table a {
+    color: #07302D; /* Наследует цвет от родительского элемента */
+    text-decoration: none; /* Убирает подчеркивание */
+    cursor: pointer; /* Изменяет курсор при наведении */
+}
+
+    .statistics_container table a:visited {
+        color: #07302D; /* Наследует цвет от родительского элемента даже после посещения */
+    }
+
+    .statistics_container table a:hover {
+        color: #038073; /* Цвет при наведении (можете изменить на желаемый) */
+        text-decoration: underline; /* Подчеркивание при наведении */
+    }
+
+    .statistics_container table a:active {
+        color: #03BE93; /* Цвет при активном клике (можете изменить на желаемый) */
+    }
+
+.journal-highlight-global {
+    background-color: yellow; /* Цвет подсветки для глобального поиска */
+}
+
+.journal-highlight-column {
+    background-color: yellow; /* Цвет подсветки для поиска по столбцу */
+}
+

@@ -1,0 +1,144 @@
+html {
+  font-size: 18px;
+  width: 100%;
+  
+}
+
+@media (min-width: 768px) {
+  html {
+    font-size: 18px;
+  }
+}
+
+.btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
+  box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
+}
+main {
+    line-height: 1;
+    margin-left: 5px; /* Левый отступ */
+    margin-right: 5px; /* Правый отступ */
+    position: relative;
+}
+
+html {
+    position: relative;
+    min-height: 100%;
+}
+
+body {
+    margin-bottom: 5%;
+    justify-content: center;
+    display: inline;
+    
+}
+
+.container {
+    display: flex;
+    justify-content: center; /* Центрирование по горизонтали */
+    align-items: center; /* Центрирование по вертикали */
+    flex: 1;
+    flex-wrap: wrap;
+    margin-left: 0px; /* Левый отступ */
+    margin-right: 0px; /* Правый отступ */
+    padding-left: 5px; /* Внутренний отступ слева */
+    padding-right: 5px; /* Внутренний отступ справа */
+}
+
+.newcontainer {
+    font-size: 20px;
+    display: flex;
+    flex-wrap: wrap;
+    padding: 15px;
+    
+    align-content: center;
+    justify-content: center;
+}
+
+.left, .right {
+    flex: 1; /* Делаем обе части равной ширины (50% каждая) */
+    background-color: #f0f0f0;
+    border: 1px solid #ccc;
+    justify-content: center;
+}
+
+.left {
+    flex-basis: 30%; /* Устанавливаем ширину 40% для левой части */
+    justify-content: center;
+    padding: 20px;
+}
+
+.right {
+    flex-basis: 70%; /* Устанавливаем ширину 60% для правой части */
+    justify-content: center;
+    padding: 20px;
+    align-content:center;
+}
+
+.divincidents {
+    background-color: #f0f0f0;
+    border: 1px solid #ccc;
+}
+
+.table {
+    width: 110%;
+}
+
+
+.main-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    margin: 0px;
+ 
+}
+
+.block {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex: 1; /* Равное распределение высоты между блоками */
+    border: 1px solid black;
+    box-sizing: border-box;
+    
+    margin: 25px 0; /* Расстояние между блоками */
+}
+
+.daily-container {
+    display: flex;
+    flex: 1;
+    width: 100%;
+    margin-left: 5px;
+}
+
+.button-container {
+    position: relative;
+}
+
+.delete-button {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: red;
+    border-radius: 50%;
+    color: white;
+    text-align: center;
+    line-height: 1;
+    padding: 0;
+    font-size: 24px;
+    border: none;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+    .delete-button svg {
+        width: 24px;
+        height: 24px;
+    }
+
+    .delete-button:hover {
+        background-color: darkred;
+    }

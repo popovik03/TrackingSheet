@@ -1,0 +1,165 @@
+﻿@{
+    ViewData["Title"] = "Журнал обращений";
+
+}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <!-- Подключаем jQuery -->
+    <script src="@Url.Content("~/vendor/jquery/dist/jquery.js")"></script>
+
+    <!-- Подключаем DataTables и его расширения -->
+    <script src="@Url.Content("~/vendor/datatables.net/js/dataTables.js")"></script>
+    <script src="@Url.Content("~/vendor/datatables.net-buttons/js/dataTables.buttons.js")"></script>
+    <script src="@Url.Content("~/vendor/datatables.net-buttons-dt/js/buttons.dataTables.js")"></script>
+    <script src="@Url.Content("~/vendor/datatables.net-select/js/dataTables.select.js")"></script>
+    <script src="@Url.Content("~/vendor/datatables.net-select-dt/js/select.dataTables.js")"></script>
+    <script src="@Url.Content("~/vendor/datatables.net-datetime/dist/dataTables.dateTime.min.js")"></script>
+
+    <!-- Подключаем Moment.js и плагин сортировки для DataTables -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.4/moment.min.js"></script>
+    <script src="https://cdn.datatables.net/plug-ins/1.13.6/sorting/datetime-moment.js"></script>
+
+    <!-- Подключаем библиотеки для работы с Excel -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.16.9/xlsx.full.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
+    <!-- ExcelJS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/exceljs/4.3.0/exceljs.min.js"></script>
+
+    <!-- Подключаем Mark.js и его jQuery-плагин -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/jquery.mark.min.js"></script>
+
+    <link rel="stylesheet" href="~/css/newstyle.css">
+
+    <!-- Подключаем JavaScript файл с логикой -->
+    <script src="@Url.Content("~/js/journal_incident.js")"></script>
+    @Html.AntiForgeryToken()
+</head>
+
+
+<body>
+    @Html.AntiForgeryToken()
+    @* <h1>
+        <label>Журнал обращений</label>
+
+    </h1> *@
+@* 
+    
+    <h2><label>Редактируйте и просматривайте обращения</label></h2> *@
+
+    <div class="table_container">
+        <section class="table__body">
+            <div class="header-journal">
+                <div id="date-range-filter" class="date-range-filter">
+                    <label for="min-date">Сортировка по дате:</label>
+                    <input type="date" id="min-date">
+                    <label for="max-date">-</label>
+                    <input type="date" id="max-date">
+                </div>
+                <div class="journal-buttons">
+                    <div class="export__file">
+                        <a asp-area="" asp-controller="Incidents" asp-action="Add">
+                            <label for="export-file" class="export__file-btn" title="Новая запись">
+                                <svg class="icon_export" viewBox="1 -2 28 28" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M6 15L8 17L12.5 12.5M8 8V5.2C8 4.0799 8 3.51984 8.21799 3.09202C8.40973 2.71569 8.71569 2.40973 9.09202 2.21799C9.51984 2 10.0799 2 11.2 2H18.8C19.9201 2 20.4802 2 20.908 2.21799C21.2843 2.40973 21.5903 2.71569 21.782 3.09202C22 3.51984 22 4.0799 22 5.2V12.8C22 13.9201 22 14.4802 21.782 14.908C21.5903 15.2843 21.2843 15.5903 20.908 15.782C20.4802 16 19.9201 16 18.8 16H16M5.2 22H12.8C13.9201 22 14.4802 22 14.908 21.782C15.2843 21.5903 15.5903 21.2843 15.782 20.908C16 20.4802 16 19.9201 16 18.8V11.2C16 10.0799 16 9.51984 15.782 9.09202C15.5903 8.71569 15.2843 8.40973 14.908 8.21799C14.4802 8 13.9201 8 12.8 8H5.2C4.0799 8 3.51984 8 3.09202 8.21799C2.71569 8.40973 2.40973 8.71569 2.21799 9.09202C2 9.51984 2 10.0799 2 11.2V18.8C2 19.9201 2 20.4802 2.21799 20.908C2.40973 21.2843 2.71569 21.5903 3.09202 21.782C3.51984 22 4.07989 22 5.2 22Z"></path>
+                                          
+                                </svg>
+                            </label>
+                        </a>     
+                    </div>
+
+                    <div id="exportToExcel" class="export__file">
+                        <label for="export-file" class="export__file-btn" title="Сохранить">
+                            <svg class="icon_export" viewBox="0 0 24 24">
+                                <path d="M14 2.26953V6.40007C14 6.96012 14 7.24015 14.109 7.45406C14.2049 7.64222 14.3578 7.7952 14.546 7.89108C14.7599 8.00007 15.0399 8.00007 15.6 8.00007H19.7305M9 15L12 18M12 18L15 15M12 18L12 12M14 2H8.8C7.11984 2 6.27976 2 5.63803 2.32698C5.07354 2.6146 4.6146 3.07354 4.32698 3.63803C4 4.27976 4 5.11984 4 6.8V17.2C4 18.8802 4 19.7202 4.32698 20.362C4.6146 20.9265 5.07354 21.3854 5.63803 21.673C6.27976 22 7.11984 22 8.8 22H15.2C16.8802 22 17.7202 22 18.362 21.673C18.9265 21.3854 19.3854 20.9265 19.673 20.362C20 19.7202 20 18.8802 20 17.2V8L14 2Z"/>
+                            </svg>
+                        </label>
+                    </div>
+
+                    <!-- Форма импорта Excel -->
+                    <div class="export__file">
+                        <!-- Скрытый input для выбора файла -->
+                        <input type="file" id="importExcelFile" accept=".xlsx, .xls" style="display: none;" />
+
+                        <!-- Иконка для загрузки Excel -->
+                        <label for="importExcelFile" class="export__file-btn" title="Загрузить Excel" aria-label="Загрузить Excel" style="cursor: pointer;">
+                            <svg class="icon_export" viewBox="0 0 24 24">
+                                <path d="M4 16.2422C2.79401 15.435 2 14.0602 2 12.5C2 10.1564 3.79151 8.23129 6.07974 8.01937C6.54781 5.17213 9.02024 3 12 3C14.9798 3 17.4522 5.17213 17.9203 8.01937C20.2085 8.23129 22 10.1564 22 12.5C22 14.0602 21.206 15.435 20 16.2422M8 16L12 12M12 12L16 16M12 12V21" />
+                            </svg>
+                        </label>
+                    </div>
+
+                    <div class="export__file-import hidden" id="export__file-import">
+                        <!-- Иконка для импорта данных -->
+                        <label id="importDataLabel" class="export__file-import-btn hidden"  title="Импортировать данные" aria-label="Импортировать данные" style="cursor: pointer;">
+                            <svg viewBox="0 -2 30 30" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M17 3.33782C19.989 5.06687 22 8.29859 22 12C22 17.5228 17.5228 22 12 22C6.47715 22 2 17.5228 2 12C2 8.29859 4.01099 5.06687 7 3.33782M8 12L12 16M12 16L16 12M12 16V2" />
+                            </svg>
+                        </label>
+
+                    </div>
+                </div>
+
+                <!-- Индикатор загрузки -->
+                <div id="loadingIndicator" class="loading-overlay" style="display: none;">
+                    <div class="loading-content">
+                        <div class="spinner"></div>
+                        <p>Импорт данных...</p>
+                    </div>
+                </div>
+
+
+            </div>
+
+            <table id="journal_table" class="display" style="overflow: visible">
+                <thead>
+                    <tr>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th> </th> <!-- highLight -->
+                        <th> </th> <!-- Delete  -->
+                    </tr>
+                </thead>
+                <tbody>
+                    
+                </tbody>
+            </table>
+        </section>
+    </div>
+
+    <!-- Контейнер для фиксированных кнопок -->
+    <div class="button-container-edit">
+        <button id="toggle-edit" class="btn-edit-table" title="Редактировать таблицу">
+            <svg class="icon-edit" viewBox="0 0 24 24">
+                <path d="M18 10L14 6M2.49997 21.5L5.88434 21.124C6.29783 21.078 6.50457 21.055 6.69782 20.9925C6.86926 20.937 7.03242 20.8586 7.18286 20.7594C7.35242 20.6475 7.49951 20.5005 7.7937 20.2063L21 7C22.1046 5.89543 22.1046 4.10457 21 3C19.8954 1.89543 18.1046 1.89543 17 3L3.7937 16.2063C3.49952 16.5005 3.35242 16.6475 3.24061 16.8171C3.1414 16.9676 3.06298 17.1307 3.00748 17.3022C2.94493 17.4954 2.92195 17.7021 2.87601 18.1156L2.49997 21.5Z" />
+            </svg>
+        </button>
+        <button id="cancel-edit" class="btn-edit-table" style="display:none;" title="Закрыть редактирование">
+            <svg class="icon-cancel" viewBox="0 0 24 24">
+                <path d="M18 6L6 18M6 6L18 18" />
+            </svg>
+        </button>
+        <button id="save-edit" class="btn-edit-table" style="display:none;" title="Принять изменения">
+            <svg class="icon-save-edit" viewBox="0 0 24 24">
+                <path d="M7 3V6.4C7 6.96005 7 7.24008 7.10899 7.45399C7.20487 7.64215 7.35785 7.79513 7.54601 7.89101C7.75992 8 8.03995 8 8.6 8H15.4C15.9601 8 16.2401 8 16.454 7.89101C16.6422 7.79513 16.7951 7.64215 16.891 7.45399C17 7.24008 17 6.96005 17 6.4V4M17 21V14.6C17 14.0399 17 13.7599 16.891 13.546C16.7951 13.3578 16.6422 13.2049 16.454 13.109C16.2401 13 15.9601 13 15.4 13H8.6C8.03995 13 7.75992 13 7.54601 13.109C7.35785 13.2049 7.20487 13.3578 7.10899 13.546C7 13.7599 7 14.0399 7 14.6V21M21 9.32548V16.2C21 17.8802 21 18.7202 20.673 19.362C20.3854 19.9265 19.9265 20.3854 19.362 20.673C18.7202 21 17.8802 21 16.2 21H7.8C6.11984 21 5.27976 21 4.63803 20.673C4.07354 20.3854 3.6146 19.9265 3.32698 19.362C3 18.7202 3 17.8802 3 16.2V7.8C3 6.11984 3 5.27976 3.32698 4.63803C3.6146 4.07354 4.07354 3.6146 4.63803 3.32698C5.27976 3 6.11984 3 7.8 3H14.6745C15.1637 3 15.4083 3 15.6385 3.05526C15.8425 3.10425 16.0376 3.18506 16.2166 3.29472C16.4184 3.4184 16.5914 3.59135 16.9373 3.93726L20.0627 7.06274C20.4086 7.40865 20.5816 7.5816 20.7053 7.78343C20.8149 7.96237 20.8957 8.15746 20.9447 8.36154C21 8.59171 21 8.8363 21 9.32548Z" />
+            </svg>
+        </button>
+    </div>
+
+</body>
+
+
+
+</html>

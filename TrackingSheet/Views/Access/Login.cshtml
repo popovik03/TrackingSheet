@@ -1,0 +1,59 @@
+@model TrackingSheet.Models.VMLogin.VMLogin
+
+@{
+    Layout = "";
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tracking Sheet</title>
+    <link rel="stylesheet" href="~/css/authorization.css">
+</head>
+<body>
+    <div class="main-page">
+        <img class="picture-bg" src="~/css/Pictures/background_offshore.png" alt="Background Image">
+
+        <div class="login-container">
+            <h2>Войдите в Вашу учетную запись</h2>
+            <form asp-controller="Access" asp-action="Login" method="post">
+                @Html.AntiForgeryToken()
+                <input type="text" class="form-control" placeholder="Имя пользователя" asp-for="Login431" />
+                <input type="password" class="form-control" placeholder="Пароль" asp-for="PassWord" />
+                <div class="checkbox-wrapper-4">
+                    <input class="inp-cbx" id="remember-user" type="checkbox" asp-for="KeepLogged" />
+                    <label class="cbx" for="remember-user">
+                        <span>
+                            <svg width="12px" height="10px">
+                                <use xlink:href="#check-4"></use>
+                            </svg>
+                        </span>
+                        <span>Запомнить пользователя</span>
+                    </label>
+                    <svg class="inline-svg">
+                        <symbol id="check-4" viewbox="0 0 12 10">
+                            <polyline points="1.5 6 4.5 9 10.5 1"></polyline>
+                        </symbol>
+                    </svg>
+                </div>
+                <button data-mdb-button-init data-mdb-ripple-init type="submit">Войти</button>
+                <a asp-controller="Guest" asp-action="Guest" class="btn btn-guest" title="Журнал обращений">
+                    Войти как гость
+                </a>
+
+                @if (ViewData["ValidateMessage"] != null)
+                {
+                    <br />
+                    <br />
+                    <div class="alert alert-danger">@ViewData["ValidateMessage"]</div>
+                }
+            </form>
+        </div>
+    </div>
+    <footer class="footer">
+        <img class="footer-logo" src="~/css/Pictures/logo.png" alt="Logo">
+    </footer>
+</body>
+</html>

@@ -1,0 +1,30 @@
+﻿@{
+    ViewBag.Title = "Загрузка карты";
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>@ViewBag.Title</title>
+</head>
+<body>
+    <h2>Загрузка карты</h2>
+
+    @if (!ViewData.ModelState.IsValid)
+    {
+        <div style="color:red;">
+            @Html.ValidationSummary()
+        </div>
+    }
+
+    <!-- Форма для загрузки файла -->
+    <form asp-action="UploadMap" method="post" enctype="multipart/form-data">
+        <div>
+            <label for="mapFile">Выберите файл:</label>
+            <input type="file" name="mapFile" id="mapFile" />
+        </div>
+        <button type="submit">Загрузить</button>
+    </form>
+</body>
+</html>

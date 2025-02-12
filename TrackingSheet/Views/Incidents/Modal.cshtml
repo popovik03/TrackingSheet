@@ -1,0 +1,36 @@
+
+    <!-- Модальное окно для добавления IncidentUpdate -->
+    <div id="incidentUpdateModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Добавить обновление инцидента</h2>
+            </div>
+            <div class="modal-body">
+                <form id="incidentUpdateForm">
+                    <div class="form-group">
+                        <label for="updateDate">Дата и время</label>
+                        <input type="datetime-local" id="updateDate" name="Date" class="form-control" />
+                    </div>
+
+                    <div class="form-group">
+                        <label for="updateReporter">Reporter</label>
+                        <input type="text" id="updateReporter" name="UpdateReporter" class="form-control" />
+                    </div>
+
+                    <div class="form-group">
+                        <label for="updateRun">Рейс</label>
+                        <input type="number" id="updateRun" name="Run" class="form-control" />
+                    </div>
+
+                    <div class="form-group">
+                        <label for="updateSolution">Описание</label>
+                        <textarea id="updateSolution" name="UpdateSolution" rows="4" class="form-control"></textarea>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" id="cancelUpdateButton" class="btn btn-secondary">Отмена</button>
+                        <button type="submit" id="saveUpdateButton" class="btn btn-primary">Сохранить</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>

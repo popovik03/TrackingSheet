@@ -1,0 +1,289 @@
+﻿/* modal.css */
+
+/* Базовые стили для модального окна */
+.modal {
+    display: flex; /* Используем flex для центрирования содержимого */
+    align-items: center; /* Центрирование по вертикали */
+    justify-content: center; /* Центрирование по горизонтали */
+    opacity: 0; /* Скрыто по умолчанию */
+    visibility: hidden; /* Скрыто по умолчанию */
+    position: fixed; /* Фиксированное положение */
+    z-index: 1000; /* Поверх других элементов */
+    left: 0;
+    top: 0;
+    width: 100%; /* Полная ширина */
+    height: 100%; /* Полная высота */
+    overflow: auto; /* Включить прокрутку, если контент превышает высоту */
+    background-color: rgba(0, 0, 0, 0.5); /* Полупрозрачный чёрный фон */
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+}
+
+    /* Состояние при открытии модального окна */
+    .modal.active {
+        opacity: 1;
+        visibility: visible;
+    }
+
+    /* Стили для содержимого модального окна */
+    .modal .modal-content {
+        background-color: #fefefe; /* Белый фон */
+        padding: 10px; /* Увеличенный внутренний отступ */
+        border: 1px solid #888;
+        width: 100%;
+        max-width: 500px; /* Уменьшенная максимальная ширина для более узкого окна */
+        border-radius: 20px; /* Сглаженные углы */
+        box-shadow: 0 5px 15px rgba(0,0,0,0.3); /* Тень для объёма */
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        align-items: center; /* Центрирование содержимого внутри модала */
+		font-family: 'Gilroy-Medium';
+        transform: scale(0.7); /* Начальный масштаб для анимации */
+        transition: transform 0.3s ease, opacity 0.3s ease;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3); /* Тень */
+        opacity: 0; /* Скрыто по умолчанию для содержимого */
+    }
+
+    /* Состояние при открытии модального окна */
+    .modal.active .modal-content {
+        transform: scale(1);
+        opacity: 1;
+    }
+
+
+/* Стили для фонового затемнения модального окна */
+.modal-vsat {
+    display: none; /* Скрыто по умолчанию */
+    position: fixed; /* Фиксированное положение */
+    z-index: 1000; /* Поверх других элементов */
+    width: 100%; /* Полная ширина */
+    height: 100%; /* Полная высота */
+    overflow: hidden; /* Скрыть прокрутку за пределами модала */
+    background-color: rgba(0, 0, 0, 0.5); /* Полупрозрачный чёрный фон */
+    justify-content: center; /* Центрирование по горизонтали */
+    opacity: 0;
+    transform: scale(0.8); /* Начальный масштаб для анимации */
+    
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+}
+
+    /* Класс для отображения модального окна */
+    .modal-vsat.show {
+        display: flex; /* Использование Flexbox для центрирования */
+        opacity: 1;
+        transform: scale(1); /* Начальный масштаб для анимации */
+    }
+
+
+/* Стили для содержимого модального окна */
+.modal-content-vsat {
+    zoom: 1.2;
+    width: 100%;
+    background-color: white;
+    padding: 30px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.3); /* Тень для объёма */
+    position: relative;
+    overflow-y: auto; /* Вертикальная прокрутка при переполнении */
+
+    border-radius: 20px;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    transform: scale(0.8); /* Начальный масштаб для анимации */
+    transition: transform 0.3s ease, opacity 0.3s ease;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3); /* Тень */
+}
+
+/* Анимация появления модального окна */
+@keyframes animatetop {
+    from {
+        transform: translateY(-50px);
+        opacity: 0;
+    }
+
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+
+
+    .modal-content-vsat::-webkit-scrollbar {
+        width: 0.5rem;
+        height: 0.5rem;
+        transition: all .6s ease;
+    }
+
+    .modal-content-vsat::-webkit-scrollbar-thumb {
+        border-radius: .5rem;
+        background-color: #e1e1e140;
+    }
+
+    .modal-content-vsat:hover::-webkit-scrollbar-thumb {
+        background-color: #e1e1e180;
+    }
+
+
+/* Стили для кнопки закрытия (крестик) */
+.close-modal {
+    color: #88a29c;
+    float: right;
+    font-size: 30px;
+    font-weight: bold;
+    cursor: pointer;
+    position: absolute;
+    top: 30px;
+    right: 40px;
+}
+
+    .close-modal:hover,
+    .close-modal:focus {
+        color: #c4c4c4;
+        text-decoration: none;
+        cursor: pointer;
+    }
+
+/* Стили для заголовка модального окна */
+.modal-content h2 {
+    margin-top: 15px;
+    font-size: 20px;
+    color: #333;
+    text-align: center;
+    background: #114439;
+    color: white;
+    align-content: center;
+    justify-content: center;
+    border-radius: 13px;
+    padding-bottom: 10px;
+    margin-bottom: 25px;
+    padding: 10px;
+    width: 93%;
+<<<<<<< HEAD
+}
+
+/* Стили для заголовка модального окна */
+.modal-content-vsat h2 {
+    margin-top: 15px;
+    font-size: 20px;
+    color: #333;
+    text-align: center;
+    background: #114439;
+    color: white;
+    align-content: center;
+    justify-content: center;
+    border-radius: 13px;
+    padding-bottom: 10px;
+    margin-bottom: 25px;
+    padding: 10px;
+    width: 97%;
+}
+
+.modal-body {
+    width: 100%;
+=======
+>>>>>>> 05e8d1fa558f65aac686112cb22d2cc294132689
+}
+
+
+/* Стили для формы внутри модального окна */
+.modal-content form {
+    display: flex;
+    flex-direction: column;
+    width: 95%;
+    padding: 10px;
+}
+
+/* Стили для группировки элементов формы */
+.form-group {
+    margin-bottom: 15px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    
+}
+
+    /* Стили для меток (label) */
+    .form-group label {
+        margin-bottom: 0px;
+        font-weight: 600;
+        color: #8a94a6;
+        font-family: Gilroy-SemiBold;
+        font-size: 16px;
+        margin: 1px;
+    }
+
+    /* Стили для текстовых полей и textarea */
+    .form-group input[type="text"],
+    .form-group input[type="number"],
+    .form-group input[type="datetime-local"],
+    .form-group textarea {
+        padding: 6px 12px;
+        border: 1px solid #ccc;
+        border-radius: 10px;
+        font-size: 16px;
+        transition: border-color 0.3s;
+        font-size: 14px;
+		font-family: 'Gilroy-Medium';
+
+    }
+
+        .form-group input[type="text"]:focus,
+        .form-group input[type="number"]:focus,
+        .form-group input[type="datetime-local"]:focus,
+        .form-group textarea:focus {
+            border-color: #33ebbd;
+            outline: none;
+        }
+
+/* Стили для кнопок внутри модального окна */
+.modal-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin-top: 10px;
+    margin-bottom: 20px;
+}
+
+    .modal-buttons button {
+        background-color: #03be93; /* Зелёный фон */
+        color: #fff;
+        font-family: 'Gilroy-Bold', sans-serif;
+        border-radius: 50px;
+        padding: 10px 20px;
+        border: 1px solid #ffffff;
+        transition: background-color 0.3s, color 0.3s, border 0.3s;
+        cursor: pointer;
+        font-size: 16px;
+    }
+
+        .modal-buttons button[type="submit"] {
+            background-color: #03be93; /* Зелёный фон */
+            color: #fff;
+            font-family: Gilroy-Bold;
+            border-radius: 50px;
+            width: 40%;
+        }
+
+            .modal-buttons button[type="submit"]:hover {
+                background-color: #ffffff;
+                color: #03be93;
+                border: 1px solid #CCCCCC;
+            }
+
+        .modal-buttons button#cancelUpdateButton {
+            background-color: #dc3545; /* Красный фон */
+            color: #fff;
+        }
+
+            .modal-buttons button#cancelUpdateButton:hover {
+                background-color: #c82333;
+            }
+
+/* Дополнительные стили для адаптивности */
+@media (max-width: 600px) {
+    .modal-content {
+        width: 95%;
+    }
+}

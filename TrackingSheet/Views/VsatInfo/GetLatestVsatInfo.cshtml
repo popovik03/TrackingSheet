@@ -1,0 +1,117 @@
+﻿@{
+    ViewData["Title"] = "Информация по VSAT";
+    var source = "http://10.7.129.186/api/v1/incidents/tool_incidents/?sn=";
+}
+
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewData["Title"]</title>
+    <!-- Подключение собственного CSS -->
+    <link rel="stylesheet" href="~/css/modalstyles.css">
+
+    <!-- Подключение Toastr CSS -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css" rel="stylesheet" />
+
+    <!-- Подключение jQuery (необходимо для Toastr и вашего JS-кода) -->
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <!-- Подключение Toastr JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+
+    <!-- Подключение собственного JavaScript -->
+    <script src="~/js/vsat_bha.js" defer></script>
+</head>
+
+<body>
+    <div class="container">
+        <h1 class="mt-4">
+            <label>VSAT КНБК</label>
+        </h1>
+        <h2 class="mb-4">
+            <label>Узнать информацию по VSAT</label>
+        </h2>
+        <section class="table__header">
+            <div class="header_vsat">
+                
+                <form id="ipPartForm" class="ip_select_container">
+                    @Html.AntiForgeryToken()
+                    <div class="ip_select_container">
+                        <div class="input-field">
+                            <input id="ipPart" name="ipPart" type="number" min="1" max="200" required>
+                        </div>
+
+                        <div class="button-container-stat">
+                            <button type="submit" class="btn btn-primary">
+                                Выбрать VSAT
+                            </button>
+                        </div>
+                    </div>
+
+                </form>
+
+                
+                <form class="ip_select_container">
+                    
+                    <div class="ip_select_container">
+                        <div class="input-field">
+                            <select id="runSelect" class="form-control" disabled>
+                                
+                                <!-- Опции будут добавлены через JavaScript -->
+                            </select>
+                        </div>
+                        
+                    </div>
+
+                </form>
+
+                <label class="vsat_label" id="vsat_label">Информация по VSAT 1</label>
+            </div>
+        </section>
+
+        <!-- Контейнер для отображения информации о VSAT -->
+        <div class="container-vsat" id="vsatInfoContainer"></div>
+
+        <!-- Контейнер для отображения таблицы компонентов -->
+        <div class="table_container" id="vsatComponentsContainer"></div>
+
+
+        <!-- Скрипт для отображения уведомлений об ошибках -->
+        <script>
+            $(document).ready(function () {
+                // Проверка наличия сообщения об ошибке в TempData
+                var errorMessage = @Html.Raw(Json.Serialize(TempData["ErrorMessage"]));
+                if (errorMessage) {
+                    toastr.error(errorMessage);
+                }
+
+                // Также можно обработать успешные сообщения, если необходимо
+                var successMessage = @Html.Raw(Json.Serialize(TempData["SuccessMessage"]));
+                if (successMessage) {
+                    toastr.success(successMessage);
+                }
+            });
+        </script>
+    </div>
+    <!-- Модальное окно для отображения истории инцидентов -->
+    @section Modals {
+        <div class="modal-vsat" id="historyModal">
+            <div class="modal-content-vsat">
+                <h2>История оборудования</h2>
+
+                <div class="modal-body">
+                    <!-- Контейнер для динамического наполнения данными -->
+                    <div id="historyContent">
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+
+    
+</body>
+
+
+</html>

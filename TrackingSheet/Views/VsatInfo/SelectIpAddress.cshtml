@@ -1,0 +1,51 @@
+﻿@{
+    ViewData["Title"] = "Информация по VSAT";
+}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <script src="~/js/vsat_bha.js" defer></script>
+</head>
+
+<body>
+    <h1>
+        <label>VSAT КНБК</label>
+    </h1>
+    <h2>
+        <label>Узнать информацию по VSAT</label>
+    </h2>
+    <section class="table__header">
+        <div class="header_vsat">
+            <label class="vsat_label", id="vsat_label">Информация по VSAT 1</label>
+
+            <form class="ip_select_container" asp-action="SetIpAddress" method="post">
+                <div class="ip_select_container">
+                    <div class="input-field">
+                        <div class="select-wrapper">
+                            <select id="ipPart" name="ipPart">
+                            </select>
+                            <div class="select-arrow">
+                                <svg class="icon_dropdown_arrow" viewBox="0 0 24 24">
+                                    <path d="M6 9L12 15L18 9"/>
+                                </svg>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="button-container-stat">
+                        <button type="submit" class="btn btn-primary">
+                            Выбрать VSAT
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </section>
+</body>
+
+</html>

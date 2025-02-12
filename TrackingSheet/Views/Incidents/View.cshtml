@@ -1,0 +1,328 @@
+﻿@model TrackingSheet.Models.ViewModels.UpdateIncidentViewModel
+@using Microsoft.AspNetCore.StaticFiles
+@using System.Security.Claims
+@using System.IO
+@using Microsoft.AspNetCore.Hosting
+@inject IWebHostEnvironment env
+@using System.Text.Json
+
+
+@{
+    // Получение имени пользователя через User.Identity
+    var loggedUser = User.Identity.IsAuthenticated ? User.Identity.Name : "Гость";
+
+    ViewData["Title"] = "Редактирование записи";
+
+    var incidentId = Model.ID;
+    var existingFiles = new List<string>();
+    var incidentFolder = System.IO.Path.Combine("wwwroot", "uploads", incidentId.ToString());
+    if (Directory.Exists(incidentFolder))
+    {
+        existingFiles = Directory.GetFiles(incidentFolder)
+            .Select(f => System.IO.Path.GetFileName(f))
+            .ToList();
+    }
+}
+
+@functions {
+    public string GetFileIconPath(string extension)
+    {
+        switch (extension.ToLower())
+        {
+            case ".txt":
+                return "M14 2.26953V6.40007C14 6.96012 14 7.24015 14.109 7.45406C14.2049 7.64222 14.3578 7.7952 14.546 7.89108C14.7599 8.00007 15.0399 8.00007 15.6 8.00007H19.7305M14 17H8M16 13H8M20 9.98822V17.2C20 18.8802 20 19.7202 19.673 20.362C19.3854 20.9265 18.9265 21.3854 18.362 21.673C17.7202 22 16.8802 22 15.2 22H8.8C7.11984 22 6.27976 22 5.63803 21.673C5.07354 21.3854 4.6146 20.9265 4.32698 20.362C4 19.7202 4 18.8802 4 17.2V6.8C4 5.11984 4 4.27976 4.32698 3.63803C4.6146 3.07354 5.07354 2.6146 5.63803 2.32698C6.27976 2 7.11984 2 8.8 2H12.0118C12.7455 2 13.1124 2 13.4577 2.08289C13.7638 2.15638 14.0564 2.27759 14.3249 2.44208C14.6276 2.6276 14.887 2.88703 15.4059 3.40589L18.5941 6.59411C19.113 7.11297 19.3724 7.3724 19.5579 7.67515C19.7224 7.94356 19.8436 8.2362 19.9171 8.5423C20 8.88757 20 9.25445 20 9.98822Z";
+            case ".xlsx":
+                return "M14 2.26953V6.40007C14 6.96012 14 7.24015 14.109 7.45406C14.2049 7.64222 14.3578 7.7952 14.546 7.89108C14.7599 8.00007 15.0399 8.00007 15.6 8.00007H19.7305M14 17H8M16 13H8M20 9.98822V17.2C20 18.8802 20 19.7202 19.673 20.362C19.3854 20.9265 18.9265 21.3854 18.362 21.673C17.7202 22 16.8802 22 15.2 22H8.8C7.11984 22 6.27976 22 5.63803 21.673C5.07354 21.3854 4.6146 20.9265 4.32698 20.362C4 19.7202 4 18.8802 4 17.2V6.8C4 5.11984 4 4.27976 4.32698 3.63803C4.6146 3.07354 5.07354 2.6146 5.63803 2.32698C6.27976 2 7.11984 2 8.8 2H12.0118C12.7455 2 13.1124 2 13.4577 2.08289C13.7638 2.15638 14.0564 2.27759 14.3249 2.44208C14.6276 2.6276 14.887 2.88703 15.4059 3.40589L18.5941 6.59411C19.113 7.11297 19.3724 7.3724 19.5579 7.67515C19.7224 7.94356 19.8436 8.2362 19.9171 8.5423C20 8.88757 20 9.25445 20 9.98822Z";
+            default:
+                return "M14 2.26946V6.4C14 6.96005 14 7.24008 14.109 7.45399C14.2049 7.64215 14.3578 7.79513 14.546 7.89101C14.7599 8 15.0399 8 15.6 8H19.7305M20 9.98822V17.2C20 18.8802 20 19.7202 19.673 20.362C19.3854 20.9265 18.9265 21.3854 18.362 21.673C17.7202 22 16.8802 22 15.2 22H8.8C7.11984 22 6.27976 22 5.63803 21.673C5.07354 21.3854 4.6146 20.9265 4.32698 20.362C4 19.7202 4 18.8802 4 17.2V6.8C4 5.11984 4 4.27976 4.32698 3.63803C4.6146 3.07354 5.07354 2.6146 5.63803 2.32698C6.27976 2 7.11984 2 8.8 2H12.0118C12.7455 2 13.1124 2 13.4577 2.08289C13.7638 2.15638 14.0564 2.27759 14.3249 2.44208C14.6276 2.6276 14.887 2.88703 15.4059 3.40589L18.5941 6.59411C19.113 7.11297 19.3724 7.3724 19.5579 7.67515C19.7224 7.94356 19.8436 8.2362 19.9171 8.5423C20 8.88757 20 9.25445 20 9.98822Z";
+        }
+    }
+
+    public string Truncate(string value, int maxLength)
+    {
+        if (string.IsNullOrEmpty(value)) return value;
+        return value.Length > maxLength ? value.Substring(0, maxLength - 3) + ".." : value;
+    }
+
+    public string GetMimeType(string fileName)
+    {
+        var provider = new FileExtensionContentTypeProvider();
+        if (!provider.TryGetContentType(fileName, out string contentType))
+        {
+            contentType = "application/octet-stream";
+        }
+        return contentType;
+    }
+
+}
+
+
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+    <script>
+        window.appSettings = {
+            incidentId: '@Model.ID',
+            reporter: '@loggedUser',
+            run: '@Model.Run',
+            addUpdateUrl: '@Url.Action("AddUpdate", "Incidents")',
+            existingFiles: @Html.Raw(JsonSerializer.Serialize(existingFiles))
+            };
+    </script>
+
+
+    <script src="~/js/view_incident.js" defer></script>
+    <link rel="stylesheet" href="~/css/modalstyles.css" />
+    <link rel="stylesheet" href="~/css/newstyle.css" />
+    <!-- Подключение CSS Quill -->
+    <link href="https://cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet">
+</head>
+
+<body>
+    <form id="editIncidentForm" method="post" action="@Url.Action("Edit", "Incidents")" enctype="multipart/form-data">
+        @Html.AntiForgeryToken()
+        <input type="hidden" asp-for="ID" />
+        <input type="hidden" id="File" name="File" value="@Model.File" />
+        <input type="hidden" name="ReturnUrl" value="@ViewData["ReturnUrl"]" />
+
+        <div class="header_incident_editing">
+            <div>
+                <h1><label>Редактирование записи</label></h1>
+                <h2><label>Внесите изменения или дополните запись</label></h2>
+            </div>
+            <div class="incident_editing_buttons">
+                <div class="add_file_container">
+                    <input type="file" id="fileInput" class="file-input" multiple name="UploadedFiles">
+                    <label for="fileInput" class="file-button" title="Вложить файл" aria-label="Вложить файл">
+                        <svg class="icon_addfile" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M20 7V6.8C20 5.11984 20 4.27976 19.673 3.63803C19.3854 3.07354 18.9265 2.6146 18.362 2.32698C17.7202 2 16.8802 2 15.2 2H8.8C7.11984 2 6.27976 2 5.63803 2.32698C5.07354 2.6146 4.6146 3.07354 4.32698 3.63803C4 4.27976 4 5.11984 4 6.8V17.2C4 18.8802 4 19.7202 4.32698 20.362C4.6146 20.9265 5.07354 21.3854 5.63803 21.673C6.27976 22 7.11984 22 8.8 22H12.5M12.5 11H8M11.5 15H8M16 7H8M18 18V12.5C18 11.6716 18.6716 11 19.5 11C20.3284 11 21 11.6716 21 12.5V18C21 19.6569 19.6569 21 18 21C16.3431 21 15 19.6569 15 18V14"></path>
+                        </svg>
+                    </label>
+                </div>
+
+                <div class="add_file_container">
+                    <input id="openModalButton" type="button" style="display:none;">
+                    <label for="openModalButton" class="file-button" onclick="insertUpdate()" title="Добавить обновление к описанию" aria-label="Добавить обновление к описанию">
+                        <svg class="icon_addfile" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M20 10.5V6.8C20 5.11984 20 4.27976 19.673 3.63803C19.3854 3.07354 18.9265 2.6146 18.362 2.32698C17.7202 2 16.8802 2 15.2 2H8.8C7.11984 2 6.27976 2 5.63803 2.32698C5.07354 2.6146 4.6146 3.07354 4.32698 3.63803C4 4.27976 4 5.11984 4 6.8V17.2C4 18.8802 4 19.7202 4.32698 20.362C4.6146 20.9265 5.07354 21.3854 5.63803 21.673C6.27976 22 7.11984 22 8.8 22H12M14 11H8M10 15H8M16 7H8M18 21V15M15 18H21"></path>
+                        </svg>
+                    </label>
+                </div>
+
+
+                <div class="add_file_container">
+                    <label class="file-button-delete" onclick="confirmDelete('@Url.Action("Delete", "Incidents", new { id = Model.ID })')" title="Удалить запись" aria-label="Удалить запись">
+                        <svg class="icon_addfile" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M14 11H8M10 15H8M16 7H8M20 12V6.8C20 5.11984 20 4.27976 19.673 3.63803C19.3854 3.07354 18.9265 2.6146 18.362 2.32698C17.7202 2 16.8802 2 15.2 2H8.8C7.11984 2 6.27976 2 5.63803 2.32698C5.07354 2.6146 4.6146 3.07354 4.32698 3.63803C4 4.27976 4 5.11984 4 6.8V17.2C4 18.8802 4 19.7202 4.32698 20.362C4.6146 20.9265 5.07354 21.3854 5.63803 21.673C6.27976 22 7.11984 22 8.8 22H12M16 16L21 21M21 16L16 21"></path>
+                        </svg>
+                    </label>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="container-edit-incident">
+            <!-- Поля ввода данных инцидента -->
+            <!-- Левый блок -->
+            <div class="left" >
+                <div class="editing-date-field">
+                    <div class="input-field">
+                        <label for="Date" class="form-label">Дата начала</label>
+                        <input type="datetime-local" class="form-control form-control-sm" asp-for="Date" />
+                    </div>
+                    <div class="input-field">
+                        <label for="DateEnd" class="form-label" style="color: white;">_</label>
+                        <input type="datetime-local" class="form-control form-control-sm" asp-for="DateEnd" />
+                    </div>
+                </div>
+                <div class="input-field small-input">
+                    <label class="form-label">Смена</label>
+                    <div class="select-wrapper">
+                        <select class="custom-select" asp-for="Shift">
+                        <option value="Day">День</option>
+                        <option value="Night">Ночь</option>
+                        </select>
+                        <div class="select-arrow">
+                            <svg class="icon_dropdown_arrow" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M6 9L12 15L18 9"/>
+                            </svg>
+                        </div>
+                    </div>
+                </div>
+                <div class="input-field">
+                    <label for="Reporter" class="form-label">431</label>
+                    <input type="text" class="form-control form-control-sm" asp-for="Reporter" />
+                </div>
+                <div class="input-field">
+                    <label for="VSAT" class="form-label" min="0">VSAT</label>
+                    <div class="vsat_field">
+                    <input type="number" class="form-control form-control-sm" asp-for="VSAT" min="0" />
+                    <button type="button" id="getDataButton" class="get_data_button" title="Получить данные" aria-label="Получить данные">
+                        <svg class="icon_get_data" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M2 10C2 10 2.12132 9.15076 5.63604 5.63604C9.15076 2.12132 14.8492 2.12132 18.364 5.63604C19.6092 6.88131 20.4133 8.40072 20.7762 10M2 10V4M2 10H8M22 14C22 14 21.8787 14.8492 18.364 18.364C14.8492 21.8787 9.15076 21.8787 5.63604 18.364C4.39076 17.1187 3.58669 15.5993 3.22383 14M22 14V20M22 14H16" />
+                        </svg>
+                    </button>
+                    </div>
+                </div>
+                <div class="input-field">
+                    <label for="Well" class="form-label">Скважина</label>
+                    <input type="text" class="form-control form-control-sm" asp-for="Well" />
+                </div>
+                <div class="input-field small-input">
+                    <label for="Run" class="form-label">Рейс</label>
+                    <input type="number" class="form-control form-control-sm" min="0" asp-for="Run" />
+                </div>
+
+                <div class="input-field">
+                    <label for="saved-npt-select" class="form-label">Сохраненное НПВ, ч</label>
+                    <div class="select-wrapper">
+                        <select class="custom-select" id="saved-npt-select" asp-for="SavedNPT">
+                            <option value=""></option>
+                            <option value="1">1</option>
+                            <option value="3">3</option>
+                            <option value="6">6</option>
+                            <option value="12">12</option>
+                            <option value="24">24</option>
+                            <option value="48">48</option>
+                        </select>
+                        <div class="select-arrow">
+                            <svg class="icon_dropdown_arrow" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M6 9L12 15L18 9" />
+                            </svg>
+                        </div>
+                    </div>
+                    <span asp-validation-for="SavedNPT" class="text-danger"></span>
+                </div>
+
+                <div class="input-field small-input">
+                    <label class="form-label">Тип проблемы</label>
+                    <div class="select-wrapper">
+                        <select asp-for="ProblemType">
+                            <option value=""></option>
+                            <option value="Advantage">Advantage</option>
+                            <option value="ATK issue">ATK issue</option>
+                            <option value="APS">APS</option>
+                            <option value="BCPM II">BCPM II</option>
+                            <option value="Cadence">Cadence</option>
+                            <option value="Computer">Computer</option>
+                            <option value="Curve Failure">Curve Failure</option>
+                            <option value="Decoding">Decoding</option>
+                            <option value="Desync">Desync</option>
+                            <option value="Downlink">Downlink</option>
+                            <option value="LTK">LTK</option>
+                            <option value="M30">M30</option>
+                            <option value="Memfix">Memfix</option>
+                            <option value="Organization">Organisation</option>
+                            <option value="OTK">OTK</option>
+                            <option value="Pressure">Pressure</option>
+                            <option value="Procedures">Procedures</option>
+                            <option value="Programming | Tip">Programming | Tip</option>
+                            <option value="Pulser issue">Pulser issue</option>
+                            <option value="Service delivery">Service delivery</option>
+                            <option value="Surface issue">Surface issue</option>
+                            <option value="Survey issue">Survey issue</option>
+                            <option value="UsMPR">USMPR</option>
+                            <option value="WellArchitect">WellArchitect</option>
+                            <option value="Win10">Win10</option>
+                            <option value="WITS">WITS</option>
+                            <option value="Other">Other</option>
+                        </select>
+                        <div class="select-arrow">
+                            <svg class="icon_dropdown_arrow" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M6 9L12 15L18 9" />
+                            </svg>
+                        </div>
+                    </div>
+                </div>
+                <div class="input-field">
+                    <label class="form-label">Отметка</label>
+                    <div class="select-wrapper">
+                        <select asp-for="HighLight">
+                            <option value=""></option>
+                            <option value="🚩">🚩</option>
+                        </select>
+                        <div class="select-arrow">
+                            <svg class="icon_dropdown_arrow" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M6 9L12 15L18 9" />
+                            </svg>
+                        </div>
+                    </div>
+                </div>
+                <div class="input-field small-input">
+                    <label class="form-label">Статус</label>
+                    <div class="select-wrapper">
+                        <select asp-for="Status" id="status-select">
+                            <option value=""></option>
+                            <option value="Success">Success</option>
+                            <option value="Process">Process</option>
+                            <option value="Fail">Fail</option>
+                            <option value="None">None</option>
+                        </select>
+                        <div class="select-arrow">
+                            <svg class="icon_dropdown_arrow" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M6 9L12 15L18 9" />
+                            </svg>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Правый блок -->
+            <div class="right">
+                <div class="description">
+                    <div class="input-field-view">
+                        <label for="Solution" class="form-label">Описание:</label>
+                        <!-- Контейнер для Quill -->
+                        <div id="quillEditor"></div>
+                        <!-- Скрытое поле для передачи HTML-контента -->
+                        <input type="hidden" name="Solution" id="Solution" asp-for="Solution" />
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- Более правый блок  :) -->
+            <div class="more-right">
+                
+
+                <div class="attachments">
+                    <!-- Предварительный просмотр загруженных файлов -->
+                    <div class="file-preview" id="filePreview">
+                        
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- Индикатор сохранения -->
+        <div id="loadingIndicator" class="loading-overlay" style="display: none;">
+            <div class="loading-content">
+                <div class="spinner"></div>
+                <p>Сохраняем...</p>
+            </div>
+        </div>
+
+
+        <div class="button-container">
+            <button type="submit" class="btn btn-primary btn-lg">
+                <svg class="icon_plus" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M6 15L8 17L12.5 12.5M8 8V5.2C8 4.0799 8 3.51984 8.21799 3.09202C8.40973 2.71569 8.71569 2.40973 9.09202 2.21799C9.51984 2 10.0799 2 11.2 2H18.8C19.9201 2 20.4802 2 20.908 2.21799C21.2843 2.40973 21.5903 2.71569 21.782 3.09202C22 3.51984 22 4.0799 22 5.2V12.8C22 13.9201 22 14.4802 21.782 14.908C21.5903 15.2843 21.2843 15.5903 20.908 15.782C20.4802 16 19.9201 16 18.8 16H16M5.2 22H12.8C13.9201 22 14.4802 22 14.908 21.782C15.2843 21.5903 15.5903 21.2843 15.782 20.908C16 20.4802 16 19.9201 16 18.8V11.2C16 10.0799 16 9.51984 15.782 9.09202C15.5903 8.71569 15.2843 8.40973 14.908 8.21799C14.4802 8 13.9201 8 12.8 8H5.2C4.0799 8 3.51984 8 3.09202 8.21799C2.71569 8.40973 2.40973 8.71569 2.21799 9.09202C2 9.51984 2 10.0799 2 11.2V18.8C2 19.9201 2 20.4802 2.21799 20.908C2.40973 21.2843 2.71569 21.5903 3.09202 21.782C3.51984 22 4.07989 22 5.2 22Z"></path>
+                </svg>
+                Сохранить
+            </button>
+        </div>
+    </form>
+
+  
+    <script src="https://cdn.quilljs.com/1.3.6/quill.js"></script>
+</body>
+
+</html>

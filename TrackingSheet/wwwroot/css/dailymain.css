@@ -1,0 +1,1664 @@
+﻿
+
+
+@font-face {
+    font-family: 'Gilroy-Medium';
+    src: url("../fonts/Gilroy-Medium.ttf") format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+
+/* Общий стиль для контейнера */
+.daily-main {
+    display: flex;
+    box-sizing: border-box;
+    padding: 15px;
+    height: 98vh;
+    overflow: auto;
+}
+
+/* Левый блок */
+.daily-main-left {
+    display: flex;
+    gap: 20px;
+    box-sizing: border-box;
+    margin-right: 20px;
+    flex-direction: row;
+    max-width: 2000px;
+    width: 65%;
+}
+
+/* Правый блок */
+.daily-main-right {
+    ;
+    display: flex; /* Используем Flexbox для внутреннего расположения */
+    flex-direction: row; /* Располагаем элементы в строку */
+    box-sizing: border-box; /* Включаем padding в ширину элемента */
+    gap: 20px;
+    max-width: 3000px;
+    width: 1200px;
+}
+
+/* Внутренние блоки правой части */
+.dmr-left {
+    display: flex;
+    flex: 70%;
+    flex-direction: column-reverse;
+    gap: 15px;
+    height: 100%;
+    zoom: 0.8;
+    min-width: 200px;
+    max-width: 450px;
+}
+
+.dmr-center {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch; /* Выравнивание содержимого по ширине */
+    box-sizing: border-box; /* Включаем padding в ширину элемента */
+    height: 100%;
+    overflow-y: auto;
+    width: 350px;
+    border: 1px solid #ccc;
+    border-radius: 15px;
+    padding-top: 5px;
+    max-width: 350px;
+}
+
+    .dmr-center span {
+        text-shadow: 1px 1px 0px rgba(0, 0, 0, 0.5);
+        font-size: 24px;
+    }
+
+    .dmr-center-task {
+        border: 1px solid #ccc;
+        border-radius: 15px;
+        gap: 5px;
+        padding: 5px;
+        height: 60%;
+        overflow-y: auto;
+    }
+
+    /* First block (To-Do) gets flex: 6, second (Do-today) gets flex: 4 */
+    .dmr-center-task:nth-of-type(1) {
+        flex: 6; /* 6 parts out of total 10 */
+    }
+
+    .dmr-center-task:nth-of-type(2) {
+        flex: 4; /* 4 parts out of total 10 */
+    }  
+
+    .dmr-center-task::-webkit-scrollbar {
+        width: 0.4rem;
+        height: 0.5rem;
+        transition: all .6s ease;
+    }
+
+    .dmr-center-task::-webkit-scrollbar-thumb {
+        border-radius: .5rem;
+        background-color: #e8e8e8;
+    }
+
+        .dmr-center-task::-webkit-scrollbar-thumb:hover {
+            background-color: #f2f2f2;
+        }
+
+
+.dmr-right {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch; /* Выравнивание содержимого по ширине */
+    box-sizing: border-box; /* Включаем padding в ширину элемента */
+    gap: 0px;
+    justify-content: space-evenly;
+    align-items: center;
+    width: 25%;
+    height: 100%;
+    overflow-y: auto;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 15px;
+    padding-top: 5px;
+}
+
+.dmr-right::-webkit-scrollbar {
+    width: 0.5rem;
+    height: 0.5rem;
+    transition: all .6s ease;
+}
+
+/* Стили для приветственного заголовка */
+.dmr-left h2 {
+    text-align: left;
+    font-size: 24px;
+    color: #333;
+}
+
+/* Контейнер с рамкой, тенями и отступами */
+.custom-border-shadow {
+    display: flex;
+    border: 1px solid #dee2e6;
+    box-shadow: 0 .125rem .25rem rgba(0, 0, 0, 0.075);
+    padding: 1rem;
+    overflow-y: auto;
+    background-color: #fff;
+    border-radius: 20px;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+    width: 100%;
+}
+
+/* Обёртка для таблицы, обеспечивающая горизонтальную прокрутку на малых экранах */
+.custom-table-responsive {
+    width: 100%;
+    overflow-y: auto;
+    height: 100px;
+    flex-grow: 1;
+}
+
+    .custom-table-responsive::-webkit-scrollbar {
+        width: 0.5rem;
+        height: 0.5rem;
+        transition: all .6s ease;
+    }
+
+    .custom-table-responsive::-webkit-scrollbar-thumb {
+        border-radius: .5rem;
+        background-color: #e1e1e140;
+    }
+
+    .custom-table-responsive:hover::-webkit-scrollbar-thumb {
+        background-color: #e1e1e180;
+    }
+
+
+/* Стилизация таблицы */
+.custom-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+    /* Стилизация заголовков таблицы */
+    .custom-table th {
+        background-color: #e8eff1;
+        padding: 8px;
+        color: white;
+        font-size: 14px;
+    }
+
+        /* Скругленные углы для ячеек */
+        .custom-table td:first-child {
+            border-radius: 10px 0 0 0;
+        }
+
+        .custom-table td:last-child {
+            border-radius: 0 10px 0 0;
+        }
+
+
+/* Класс для выделения строк */
+.flagged {
+    background-color: #ffebcc; /* Светло-оранжевый фон для выделенных строк */
+}
+
+
+/* Стили для контейнера часов */
+.clocks-container {
+    padding: 15px; /* Уменьшены отступы */
+    border-radius: 20px;
+    width: 100%;
+    box-sizing: border-box;
+    border: 1px solid #dee2e6;
+    gap: 5px;
+    border-radius: 5px;
+}
+
+.clock {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0px; /* Уменьшены отступы */
+    min-width: 80px;
+    border: 0px solid #dee2e6;
+    padding: 5px;
+    border-radius: 5px;
+}
+
+    .clock h3 {
+        font-family: Gilroy-Medium;
+        margin: 0;
+        font-size: 20px; 
+        color: #11483B;
+        margin-right: 0px;
+        align-items: center;
+        justify-content: center;
+        padding: 2px;
+    }
+
+    .clock .time {
+        display: flex;
+        margin: 0;
+        font-size: 24px; /* Уменьшен размер шрифта */
+        font-weight: 300;
+        color: #000;
+        align-items: center;
+        justify-content:center;
+        padding: 2px;
+    }
+
+.clock-city {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+/* Ограничение ширины виджетов */
+[data-tockify-component="mini"],
+.clocks-container {
+    display: flex;
+    box-sizing: border-box;
+    gap: 5px;
+    justify-content: space-around;
+    border-radius: 20px;
+    font-size: 18px;
+}
+
+/* Стили для списка городов */
+.city-list ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+    .city-list ul li {
+        padding: 10px;
+        cursor: pointer;
+        border-bottom: 1px solid #ddd;
+        transition: background-color 0.3s;
+    }
+
+        .city-list ul li:hover {
+            background-color: #f0f0f0;
+        }
+
+        .city-list ul li.active {
+            font-weight: bold;
+            background-color: #e0e0e0;
+        }
+
+[data-tockify-component="mini"] {
+    margin-bottom: 20px;
+    width: 100%; /* Занимает всю доступную ширину */
+}
+
+/* Стили для таблицы */
+.table-responsive {
+    overflow-x: auto;
+}
+
+.table {
+    table-layout: fixed; /* Фиксированная ширина столбцов */
+    width: 100%;
+}
+
+    .table th, .table td {
+        word-wrap: break-word;
+        word-break: break-all;
+        padding: 8px; /* Меньшие внутренние отступы */
+        font-size: 14px; /* Уменьшенный размер шрифта */
+        text-align: center;
+    }
+
+    .table thead th {
+        background-color: #1a4039; /* Более темный зеленый фон */
+        color: white; /* Белый цвет текста для контраста */
+        text-align: center;
+    }
+
+
+
+
+.table-striped tbody tr:nth-of-type(odd) {
+    background-color: rgba(0,0,0,.05);
+}
+
+/* Адаптивность */
+@media (max-width: 768px) {
+    .daily-main {
+        flex-direction: column;
+    }
+
+    .daily-main-left,
+    .daily-main-right {
+        width: 100%;
+        padding: 10px;
+    }
+
+    .daily-main-right {
+        flex-direction: column; /* Изменяем направление на колонку */
+        align-items: center; /* Центрирование содержимого */
+    }
+
+    .dmr-right {
+        width: 100%; /* Занимает всю ширину на мобильных */
+        align-items: center;
+        
+    }
+
+    .weatherwidget-io,
+    [data-tockify-component="mini"],
+    .clocks-container {
+        max-width: 100%; /* Убираем ограничение максимальной ширины */
+        border-radius: 10px;
+    }
+
+    .table th, .table td {
+        font-size: 12px; /* Уменьшенный размер шрифта */
+    }
+
+    .dmr-left h2 {
+        text-align: center;
+    }
+}
+#calendar-container {
+    width: 100%; /* Занимает всю доступную ширину */
+    height: 350px; /* Высота контейнера, можно изменить под ваши нужды */
+    padding: 10px;
+    box-sizing: border-box; /* Включаем отступы в общие размеры */
+    text-align: center; /* Центрируем содержимое по горизонтали */
+}
+
+.flatpickr-innerContainer {
+    display: flex; /* Включаем Flexbox */
+    justify-content: center; /* Центрирование по горизонтали */
+    align-items: center; /* Центрирование по вертикали */
+    width: 100%; /* Растягиваем по ширине контейнера */
+   
+    box-sizing: border-box; /* Включаем отступы в общие размеры */
+}
+
+
+.flatpickr-calendar.inline {
+    width: 100%;
+    border-radius: 15px;
+}
+
+.telegram-messages {
+    display: flex;
+    height: 100%;
+    overflow-y: auto;
+    border: 1px solid #ccc;
+    padding: 20px 15px;
+    background-color: #f5f5f5;
+    border-radius: 20px;
+    flex-direction: column;
+    height: 100px;
+    flex-grow: 1;
+    flex-direction: column-reverse;
+    background-image: url('../img/126.jpg'); /* Задаем изображение в качестве фона */
+    background-size: cover; /* Изображение будет масштабироваться, чтобы покрыть весь виджет */
+    background-position: bottom left; /* Начальное положение изображения */
+}
+
+    .telegram-messages::-webkit-scrollbar {
+        width: 0.5rem;
+        height: 0.5rem;
+        transition: all .6s ease;
+    }
+
+    .telegram-messages::-webkit-scrollbar-thumb {
+        border-radius: .5rem;
+        background-color: #ffffff96;
+    }
+
+    .telegram-messages:hover::-webkit-scrollbar-thumb {
+        background-color: #ffffffe4;
+    }
+
+.telegram-message {
+    zoom: 0.9;
+    display: flex;
+    align-items: flex-start;
+    margin-bottom: 25px;
+    height: 100%;
+    font-family: Gilroy;
+    gap: 10px;
+}
+
+    .telegram-message .avatar {
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+        margin-right: 10px;
+        object-fit: cover;
+    }
+
+.message-bubble {
+    position: relative; /* Важно для абсолютного позиционирования псевдоэлемента */
+    background-color: white;
+    padding: 10px 15px;
+    border-radius: 20px;
+    max-width: 80%;
+    box-shadow: 0 1px 1px rgba(0,0,0,0.1);
+    max-height: 600px;
+    overflow-y: auto;
+    font-family: 'Gilroy-Medium', sans-serif;
+}
+
+    /* Хвостик слева */
+    .message-bubble::before {
+        content: "";
+        position: absolute;
+        top: 10px; /* Регулируйте по необходимости */
+        left: -10px; /* Смещение влево от пузырька */
+        width: 0;
+        height: 0;
+        border-top: 10px solid transparent;
+        border-bottom: 10px solid transparent;
+        border-right: 10px solid white; /* Цвет хвостика должен совпадать с цветом пузырька */
+        z-index: 1; /* Чтобы хвостик находился поверх других элементов */
+    }
+
+    /* Хвостик справа (если нужно для сообщений от другого пользователя) */
+    .message-bubble.right::before {
+        left: auto;
+        right: -10px;
+        border-right: none;
+        border-left: 10px solid white;
+    }
+
+/* Дополнительные стили для улучшения внешнего вида */
+.telegram-message {
+    display: flex;
+    align-items: flex-start;
+    margin-bottom: 15px;
+}
+
+.avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-right: 10px;
+}
+
+.message-username {
+    font-weight: bold;
+    margin: 0;
+    margin-bottom: 5px;
+    font-size: 0.9em;
+    color: #333;
+    font-family: 'Gilroy-Bold', sans-serif;
+}
+
+.message-date {
+    font-size: 0.8em;
+    color: #888;
+    margin-left: 5px;
+}
+
+.message-text {
+    margin: 0;
+    font-size: 1em;
+    color: #000;
+    word-wrap: break-word;
+}
+
+    /* Настройка стилей полосы прокрутки и ползунка */
+    .message-bubble::-webkit-scrollbar {
+        width: 0.5rem;
+        height: 0.5rem;
+        transition: all .6s ease;
+    }
+
+    .message-bubble::-webkit-scrollbar-thumb {
+        background-color: #e1e1e140; /* Начальный цвет ползунка */
+        border-radius: .5rem;
+        transition: all .6s ease; /* Плавный переход цвета */
+    }
+
+    .message-bubble:hover::-webkit-scrollbar-thumb {
+        background-color: #e1e1e180; /* Цвет ползунка при наведении */
+    }
+
+.message-username {
+    font-weight: bold;
+    margin: 0;
+    margin-bottom: 5px;
+    font-size: 0.9em;
+    color: #333;
+	font-family: 'Gilroy-Bold';
+    font-size: 18px;
+}
+
+.message-date {
+    font-size: 0.8em;
+    color: #888;
+    margin-left: 5px;
+}
+
+.message-text {
+    margin: 0;
+    font-size: 20px;
+    color: #000;
+    word-wrap: break-word;
+	font-family: 'Gilroy-Medium';
+}
+
+/* Дополнительные стили для улучшения внешнего вида */
+.flagged .message-bubble {
+    background-color: #ffe5e5;
+    border: 1px solid #ffcccc;
+}
+
+/* Стилизация заголовков и других элементов */
+h1, h2, h3 {
+    color: #333;
+    font-size: 28px;
+    padding-left: 10px;
+}
+
+.message-bubble::after {
+    content: "";
+    position: absolute;
+    top: 2px;
+    left: -9px;
+    width: 0;
+    height: 0;
+    border-top: 20px solid transparent;
+    border-bottom: 20px solid transparent;
+    border-right: 20px solid white;
+
+}
+
+.telegram-header {
+    color: black;
+    padding: 0px;
+    border-radius: 15px;
+}
+
+    /* Заголовок РО-группа */
+    .telegram-header span {
+        font-size: 15px; /* Размер заголовка */
+        font-weight: bold;
+        margin-left: 10px;
+    }
+
+/* Стили для формы отправки сообщения */
+.send-message-form {
+
+}
+    .send-message-form input[type="file"] {
+        margin-top: 10px;
+    }
+
+    .send-message-form input[type="text"] {
+        font-size: 15px; /* Размер шрифта */
+        font-family: 'Gilroy-Medium';
+        border-radius: 10px; /* Скругление углов */
+        box-sizing: border-box; /* Включает паддинг и границы в ширину */
+        box-shadow: rgba(0, 0, 0, 0.02) 0px 1px 3px 0px, rgba(27, 31, 35, 0.15) 0px 0px 0px 1px;
+        border: none;
+        background: rgba(0, 0, 0, 0);
+        appearance: none;
+        padding: 15px;
+        line-height: 1.4;
+        color: black;
+        transition: all .2s ease;
+        resize: none;
+        height: 45px;
+        width: -webkit-fill-available;
+        margin-right: 20px;
+    }
+
+        .send-message-form input[type="text"]:hover {
+            box-shadow: 0 0 0 0 #fff inset, #1de9b6 0 0 0 1px;
+        }
+
+        .send-message-form input[type="text"]:focus {
+            background: #fff;
+            outline: 0;
+            box-shadow: 0 0 0 0 #fff inset, #1de9b6 0 0 0 3px;
+        }
+
+    .send-message-form button {
+        display: flex;
+        justify-content: center; /* Центрируем содержимое по горизонтали */
+        align-items: center; /* Центрируем содержимое по вертикали */
+        padding: 10px 10px; /* Добавляем горизонтальные отступы */
+        border: 3px solid #03BE93; /* Изначально границы прозрачные */
+        border-radius: 18px; /* Увеличен радиус для лучшего внешнего вида */
+        cursor: pointer;
+        transition: background-color 0.3s, color 0.3s, transform 0.2s, border-color 0.3s; /* Плавный переход */
+        background-color: white; /* Начальный фон */
+    }
+
+        .send-message-form button:hover {
+            background-color: #03BE93; /* Начальный фон */
+
+            border: 3px solid white; /* Цвет границы при наведении */
+            transform: scale(1.05); /* Увеличиваем кнопку при наведении */
+        }
+
+.icon-send {
+    margin-left: 2px;
+    width: 25px; /* Ширина иконки */
+    height: 25px; /* Высота иконки */
+    fill: #03BE93;
+    transition: fill 0.3s; /* Плавный переход для цвета иконки */
+}
+
+.send-message-form button:hover .icon-send {
+    fill: white; /* Цвет иконки при наведении */
+}
+
+.send-message-line {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.message-photos {
+    margin-top: 10px;
+}
+
+/* Стиль для фотографий в сообщениях */
+.message-photo {
+    max-width: 300px; /* Максимальная ширина изображения */
+    height: auto; /* Автоматическая высота для сохранения пропорций */
+    border-radius: 8px; /* Закругленные углы, опционально */
+    margin-bottom: 10px; /* Отступ снизу между изображениями */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Тень для придания объема, опционально */
+    display: block; /* Чтобы убрать возможные пробелы под изображением */
+}
+.message-documents {
+    margin-top: 10px;
+}
+
+    .message-documents ul {
+        list-style-type: none;
+        padding: 0;
+    }
+
+    .message-documents li {
+        margin-bottom: 5px;
+    }
+
+
+
+
+
+/* Стиль для фона ячеек с основной информацией */
+.custom-background {
+    background-color: #e5e5ea;
+    padding: 8px;
+    color: black; /* Можно изменить цвет текста для лучшей видимости */
+}
+
+/* Стиль для фона строки с решением */
+.solution-background {
+    border-bottom: 2px solid white;
+    padding: 30px;
+}
+
+/* Класс для выделения строк с флагом */
+.flagged .solution-background {
+    background-color: #ecedbe; /* Например, красный фон для выделенных строк */
+}
+
+
+.flatpickr-day {
+    transition: all .4s ease;
+}
+
+.flatpickr-day.selected, .flatpickr-day.startRange, .flatpickr-day.endRange, .flatpickr-day.selected.inRange, .flatpickr-day.startRange.inRange, .flatpickr-day.endRange.inRange, .flatpickr-day.selected:focus, .flatpickr-day.startRange:focus, .flatpickr-day.endRange:focus, .flatpickr-day.selected:hover, .flatpickr-day.startRange:hover, .flatpickr-day.endRange:hover, .flatpickr-day.selected.prevMonthDay, .flatpickr-day.startRange.prevMonthDay, .flatpickr-day.endRange.prevMonthDay, .flatpickr-day.selected.nextMonthDay, .flatpickr-day.startRange.nextMonthDay, .flatpickr-day.endRange.nextMonthDay {
+    background: #1de9b6;
+    -webkit-box-shadow: none;
+    box-shadow: none;
+    color: #fff;
+    border-color: #03be93;
+}
+
+
+
+
+.solution-row {
+    padding: 0px;
+    background-color: #f9f9f9;
+    width: 100%;
+    box-sizing: border-box;
+    padding-top: 3px;
+    padding-bottom: 3px;
+}
+.solution-container {
+    padding: 0px;
+    background-color: white;
+    width: 100%;
+    box-sizing: border-box;
+    padding-top: 3px;
+    padding-bottom: 3px;
+}
+
+
+/* Стили для контейнера заголовка и количества инцидентов */
+.summary-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    margin-bottom: 0px; /* Отступ снизу для разделения от таблицы */
+}
+
+/* Стили для отображения количества инцидентов */
+.incident-count {
+    font-size: 17px;
+    font-family: 'Gilroy-Medium';
+    color: black;
+    font-weight: 600;
+    padding-right: 15px;
+}
+
+    /* Можно добавить дополнительные стили по желанию */
+    .incident-count strong {
+        color: #11483B;
+    }
+
+/* Для дочерней строки Solution */
+.child .solution-container {
+    display: flex;
+    flex-direction: column;
+    width: 100%; /* Занимает всю ширину строки */
+}
+
+.child .solution-text {
+    display: inline-block;
+    width: 100%; /* Занимает всю ширину */
+    padding: 8px;
+    min-height: 50px; /* Увеличиваем высоту ячейки для удобного редактирования */
+    font-size: 16px; /* Увеличиваем размер текста */
+    word-wrap: break-word; /* Перенос слов, если текст слишком длинный */
+    background-color: #f4f4f9; /* Лёгкий фон для выделения */
+    border-radius: 5px; /* Скругляем края */
+}
+
+
+/* Убедитесь, что таблица имеет отдельные границы, чтобы позволить использовать border-spacing */
+#journal_table {
+    border-collapse: separate;
+    border-spacing: 0 0px; /* 15px вертикального отступа между строками */
+    width: 100%;
+}
+
+    /* Стилизация основного ряда инцидента */
+    #journal_table tbody tr.highlight-row {
+        background-color: #f7d79e !important; /* Светло-жёлтый фон */
+        border: 1px solid #ccc; /* Серый контур */
+        border-radius: 8px 8px 0 0; /* Закругление верхних углов */
+        font-weight: 600;
+        box-sizing: border-box; /* Учитывать padding в ширине */
+    }
+
+    /* Стиль для строк с флажком (бледно-желтый фон) */
+    #journal_table tr.highlight-row td {
+        background-color: #f7d79e; /* Light Yellow */
+        font-weight: 600;
+        color: black;
+    }
+
+        /* Применение бледно-желтого фона к первой ячейке строки с флажком */
+        #journal_table tr.highlight-row td:nth-child(1) {
+            background-color: #f7d79e; /* Light Yellow */
+            color: black;
+        }
+
+    /* Применение фона ко всей строке с классом highlight-row, включая дочернюю строку */
+    #journal_table tr.highlight-row,
+    #journal_table tr.highlight-row + tr[data-dt-row] {
+        background-color: #ded9ba !important; /* Light Yellow */
+    }
+
+
+    /* Стилизация дочернего ряда с описанием */
+    #journal_table tbody tr.child {
+        background-color: white; /* Светло-серый фон */
+        border: 1px solid #ccc; /* Серый контур */
+        border-radius: 0 0 8px 8px; /* Закругление нижних углов */
+        padding: 10px; /* Внутренние отступы */
+        box-sizing: border-box; /* Учитывать padding в ширине */
+    }
+
+    /* Удаление стандартных границ таблицы */
+    #journal_table th {
+        border: none;
+        padding: 10px; /* Отступы внутри ячеек */
+        text-align: center; /* Выравнивание текста */
+        vertical-align: middle; /* Вертикальное выравнивание */
+        border-bottom: 2px;
+        border-color: black;
+        background-color: #11483B;
+        color: white;
+    }
+    #journal_table thead th {
+        position: sticky;
+        top: 0;
+        z-index: 10;
+        background-color: #11483B;
+        color: white;
+    }
+
+
+table, th, td {
+    padding: 1rem 0.5rem;
+    text-align: center;
+    overflow: visible;
+    text-overflow: ellipsis;
+    transition: .2s ease-in-out;
+}
+
+    #journal_table td {
+        padding-top: 2px;
+        padding-bottom: 2px;
+        border: none;
+        text-align: center; /* Выравнивание текста */
+        vertical-align: middle; /* Вертикальное выравнивание */
+        background-color: #f7f7f7;
+        border-bottom: 2px solid #bdb8b8; /* Черная линия снизу */
+    }
+        /* Стилизация заголовка таблицы */
+    #journal_table thead tr {
+        background-color: #11483B; /* Светло-серый фон заголовка */
+        color: white;
+        border-bottom: 2px solid #ccc; /* Серый контур под заголовком */
+    }
+
+    /* Убедитесь, что дочерние строки занимают всю ширину таблицы */
+    #journal_table tbody tr.child td {
+        padding: 10px 12px; /* Отступы внутри дочерних ячеек */
+    }
+
+    #journal_table td colspan {
+        padding-top: 2px;
+        padding-bottom: 2px;
+        border: none;
+        text-align: center; /* Выравнивание текста */
+        vertical-align: middle; /* Вертикальное выравнивание */
+        background-color: white;
+        border-bottom: 2px solid #bdb8b8; /* Черная линия снизу */
+    }
+
+.data-dt-row {
+    background-color: white;
+}
+
+table.dataTable.row-border > tbody > tr > th, table.dataTable.row-border > tbody > tr > td, table.dataTable.display > tbody > tr > th, table.dataTable.display > tbody > tr > td {
+    padding: 0px;
+}
+
+table.dataTable.display > tbody tr > .sorting_1 {
+    padding: 10px;
+}
+
+/* Стиль для пустой строки в конце каждой записи инцидента */
+.empty-row {
+    height: 15px; /* Высота пустой строки */
+    background-color: white; /* Белый фон */
+    width: 100%; /* Занимает всю ширину */
+}
+
+/* Стили для заголовка и иконки погоды */
+.weather-header {
+    display: flex;
+    justify-content: space-between; /* Распределение пространства между элементами */
+    align-items: center; /* Выравнивание по вертикали */
+    margin-bottom: 1px; /* Отступ снизу для разделения с остальным содержимым */
+    background-color: white;
+}
+
+/* Стили для названия города */
+.weather-city-name {
+    margin: 0; /* Убираем внешние отступы */
+    font-size: 1.5em; /* Размер шрифта */
+    font-weight: bold; /* Жирный шрифт */
+    color: black; /* Белый цвет текста */
+    /*text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.6); /* Лёгкая чёрная тень с прозрачностью */
+    padding-left: 15px;
+}
+
+/* Стили для иконки погоды */
+.weather-icon {
+    border: 2px solid white; /* Белая граница толщиной 2px */
+    border-radius: 50%; /* Округление углов границы (сделает ее круглой) */
+    padding: 4px; /* Отступ между иконкой и границей */
+    background-color: transparent; /* Прозрачный фон */
+    width: 70px; /* Ширина иконки */
+    height: 70px; /* Высота иконки */
+    object-fit: contain; /* Сохранение пропорций изображения */
+}
+
+/* Дополнительные стили для текста внутри виджета */
+.weather-widget p {
+    margin: 5px 0; /* Отступы сверху и снизу для абзацев */
+    font-size: 1em; /* Размер шрифта */
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.7); /* Тень для улучшения читаемости */
+    padding-left: 10px;
+    padding-right: 10px;
+    padding-bottom:10px;
+
+}
+
+
+    .weather-widget::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.2); /* Полупрозрачный чёрный цвет */
+        z-index: 1; /* Размещаем слой выше фонового изображения, но ниже текста */
+        pointer-events: none; /* Чтобы слой не блокировал взаимодействие с элементами */
+    }
+
+    .weather-widget > * {
+        position: relative;
+        z-index: 2; /* Размещаем текст выше оверлея */
+    }
+
+.weather-widget-container {
+    zoom: 0.9;
+    width:100%;
+}
+/* Изоляция стилей для виджетов погоды */
+#weather-widgets .weather-widget .ms-informer-link {
+    white-space: nowrap !important; /* Предотвращает перенос текста */
+    font-size: 16px !important; /* Увеличивает размер шрифта при необходимости */
+    display: inline-block !important; /* Обеспечивает правильное отображение */
+    color: #333333 !important; /* Устанавливает цвет текста */
+    text-decoration: none !important; /* Убирает подчеркивание, если необходимо */
+}
+
+/* Если внутри виджета есть элемент с классом .header */
+#weather-widgets .weather-widget .header {
+    display: block !important; /* Отменяет Flexbox */
+    flex-direction: initial !important; /* Возвращает первоначальное направление */
+    margin-bottom: 0px !important; /* Сбрасывает отступы */
+    word-wrap: break-word;
+    font-family: Gilroy-Medium;
+    font-weight: bold !important;
+    
+}
+
+/* Применяет display: block ко всем таблицам внутри контейнера #weather-widgets */
+#weather-widgets .weather-widget table {
+    display: block;
+    white-space: normal;
+    background-color: #f5f5f5 !important; /* Светлый фон для контраста */
+}
+
+/* Применяет стили ко всем ссылкам внутри виджетов погоды внутри контейнера #weather-widgets */
+#weather-widgets .weather-widget a {
+    color: inherit !important;
+    font-weight: bold !important; /* Замените на 'normal', если нужно */
+    text-decoration: none !important;
+    padding: 0px !important;
+}
+
+/* Стили для контейнера виджета погоды */
+.weather-widget {
+    position: relative; /* Для возможности позиционирования внутренних элементов */
+    padding: 0px; /* Внутренние отступы для содержимого */
+    margin: 7px;
+    margin-bottom: 15px;
+    border-radius: 8px; /* Скругление углов виджета */
+    overflow: hidden; /* Обрезка содержимого за границами виджета */
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+    color: white; /* Цвет текста по умолчанию */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Тень для визуального отделения */
+    border: 1px solid #ccc;
+}
+
+.weatherInfo {
+    border-radius: 10px;
+}
+
+/* Стили для элемента температуры */
+.temperature {
+    font-size: 2.5em !important; /* Увеличивает размер шрифта до 2em (можно изменить по необходимости) */
+    font-weight: bold !important; /* Делает текст жирным */
+    color: white; /* Устанавливает белый цвет текста для лучшей видимости */
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.7) !important; /* Добавляет тень для улучшения читаемости на фоне */
+    margin-top: 5px; /* Добавляет отступы сверху и снизу для пространства */
+    text-align: right !important;
+    
+}
+
+.weather-description {
+    display: flex;
+    color: black !important;
+    align-items: center; /* Выравнивание по вертикали */
+    background-color: white;
+    justify-content: center;
+    font-family: Giroy;
+    padding: 5px;
+}
+
+.weatherwidget-io {
+    border-radius: 10px;
+    margin-top: 7px;
+    width: 100%; /* Занимает всю ширину */
+    display: block; /* Убедитесь, что ссылка занимает блок */
+    text-align: center; /* Центрирует текст внутри ссылки */
+    background-color: #f5f5f5; /* Светлый фон для контраста */
+}
+
+/* dailymain.css */
+
+/* Контейнер для задач */
+#kanban-tasks-container {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding: 10px;
+    justify-content: flex-start;
+    overflow-y: auto; /* Вертикальная прокрутка */
+    height: 100%; /* Занимает всю доступную высоту родителя */
+    
+    box-sizing: border-box; /* Включает padding в общую ширину */
+}
+
+    #kanban-tasks-container::-webkit-scrollbar {
+        width: 0.5rem;
+        height: 0.5rem;
+        transition: all .6s ease;
+    }
+
+    #kanban-tasks-container::-webkit-scrollbar-thumb {
+        border-radius: .5rem;
+        background-color: #e8e8e8;
+    }
+
+        #kanban-tasks-container::-webkit-scrollbar-thumb:hover {
+            background-color: #f2f2f2;
+        }
+
+
+
+/* Карточка задачи */
+.task-card {
+    background-color: #f4f5f7;
+    border-radius: 8px;
+    padding: 10px;
+    width: 100%;
+    border: 1px solid #ccc;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    margin-top: 7px;
+}
+
+/* Заголовок задачи */
+.task-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+}
+
+/* Уменьшение шрифта для срока выполнения */
+.header-left span {
+    font-size: 12px; /* Укажите нужный размер шрифта, например, 12px */
+    font-weight: normal; /* Убирает жирность */
+}
+
+.title-container {
+    width: 100%;
+    text-align: left;
+}
+
+/* Название задачи */
+.task-title {
+    font-size: 18px;
+    font-weight: bold;
+}
+
+/* Стили для карточек задач */
+.task-card {
+    background-color: #f4f5f7;
+    border-radius: 8px;
+    padding: 4px 7px 0px 7px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+.task-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    
+}
+
+.task-title {
+    font-size: 16px;
+    font-weight: bold;
+    font-family: 'Gilroy-SemiBold';
+    padding: 2px;
+    margin: 2px;
+    margin-left: 0px;
+    border-radius: 5px;
+    padding-left: 5px;
+}
+
+/* Контейнер для иконки приоритета */
+.task-priority {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 25px; /* Ширина контейнера для иконки */
+    height: 25px; /* Высота контейнера для иконки */
+    border-radius: 20%; /* Закругленные углы, если нужно */
+    padding: 3px;
+}
+
+/* Стили для иконки звонка */
+.notification-bell {
+    width: 24px;
+    height: 24px;
+    fill: #FFFFFF; /* Белый цвет иконки */
+    transition: fill 0.3s ease, transform 0.3s ease;
+}
+
+    .notification-bell:hover {
+        fill: #dddddd; /* Цвет при наведении, можно изменить по желанию */
+    }
+
+/* Фоновые цвета для разных приоритетов */
+.priority-low {
+    background-color: #28a745; /* Зеленый для низкого приоритета */
+}
+
+.priority-medium {
+    background-color: #ffc107; /* Желтый для среднего приоритета */
+}
+
+.priority-high {
+    background-color: #dc3545; /* Красный для высокого приоритета */
+}
+
+/* Дополнительные стили для деталей задачи */
+.task-details {
+    margin-top: 10px;
+    font-family: Gilroy;
+}
+.task-details p {
+    margin-bottom: 5px;
+    padding: 5px;
+}
+
+ .comments {
+    margin-top: 10px;
+}
+
+    .comments ul {
+        list-style-type: disc;
+        padding-left: 20px;
+    }
+
+.subtasks {
+    padding: 0px 15px 0px 15px;
+}
+
+.subtasks ul {
+    padding: 10px;
+}
+
+/* Блок задачи */
+.task-content {
+    background-color: #f9f9f9; /* Светлый фон */
+    padding: 10px;
+    border-radius: 6px;
+    margin-bottom: 0px;
+}
+
+.task-details .subtasks ul {
+    padding-left: 20px;
+}
+
+.task-details h4 {
+    color: #333;
+    font-weight: bold;
+    font-size:14px;
+}
+
+
+    /* Комментарии */
+    .comments ul {
+        list-style-type: none; /* Убираем стандартные маркеры списка */
+        padding-left: 0;
+    }
+
+.comment {
+    display: flex;
+    align-items: flex-start;
+    margin-bottom: 10px;
+}
+
+.comment-avatar-container {
+    display: flex;
+    align-items: flex-start;
+    margin-right: 10px;
+}
+
+.comment-avatar {
+    width: 35px;
+    height: 35px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 1px solid #ccc;
+    margin-right: 0px;
+}
+
+.comment-content {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.comment-author {
+    font-weight: bold;
+    color: #333;
+}
+
+.comment-text {
+    font-weight: normal;
+    color: #555;
+    border-top: 1px solid #ccc;
+}
+
+.task-due-date.due-soon {
+    color: red;
+    font-family: Gilroy;
+    font-weight: bold;
+    font-size: 12px;
+}
+.task-due-date {
+    font-size: 10px;
+    padding-top: 5px;
+    color: #474747;
+    padding-bottom: 5px;
+}
+
+/* Если вы хотите, чтобы текст был красным и в деталях */
+.task-details .task-due-date.due-soon {
+    color: red;
+}
+
+/* Кнопка для комментариев */
+.toggle-comments-btn {
+    cursor: pointer;
+    border: none;
+    background: transparent;
+}
+
+.toggle-subtasks-btn {
+    cursor: pointer;
+    border: none;
+    background: transparent;
+}
+
+.toggle-description-btn {
+    cursor: pointer;
+    border: none;
+    background: transparent;
+}
+
+
+
+
+/* Подзадачи и комментарии */
+.subtasks, .comments {
+    margin-top: 0px;
+}
+    subtasks ul {
+        border: 0px solid #ccc;
+    }
+
+.subtasks {
+    border-top: 1px solid #ccc;
+}
+
+/* Списки подзадач и комментариев */
+.comments ul {
+    list-style-type: disc;
+    padding-left: 0px;
+    padding: 5px;
+    border-top: 1px solid #ccc;
+    margin: 5px
+}
+
+/* Отдельные комментарии */
+.comment {
+    margin-bottom: 5px;
+    padding: 5px;
+   
+}
+
+
+/* Счётчик задач с уменьшенным размером шрифта */
+.task-count {
+    font-size: 18px !important; /* Уменьшено с 14px */
+    color: black; /* Белый цвет текста для контраста */
+    padding: 2px 6px;
+    text-shadow: none !important;
+}
+
+
+.task-number {
+    color: black; 
+    font-weight: 0; /* Сделать текст жирным, если нужно */
+}
+
+
+/* Дополнительные стили при необходимости */
+@media (max-width: 768px) {
+    #task-count {
+        font-size: 18px;
+        margin-bottom: 15px;
+    }
+}
+
+td.details-control {
+    text-align: center;
+    cursor: pointer;
+}
+
+tr.shown td.details-control .details-btn {
+    content: "-";
+}
+
+                                                                                        /* Цвет дочернего блока решения */
+
+#journal_table tr[data-dt-row] td:nth-child(1) {
+    background-color: white;
+}
+
+
+/* Показывать столбец highLight только в режиме редактирования */
+.is-edit-mode .highlight-column {
+    display: table-cell; /* Убедитесь, что display не переопределяется */
+}
+
+/* Применение фона ко всей строке с классом highlight-row */
+#journal_table tr.highlight-row,
+#journal_table tr.highlight-row + tr.child {
+    background-color: #dfffcf !important; /* Light Yellow */
+}
+
+.custom-file-label {
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: #54d3b6; /* Цвет фона кнопки */
+    color: white; /* Цвет текста */
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: bold;
+    text-align: center;
+    border-radius: 15px;
+    margin-top: 5px;
+    border: 2px solid white;
+}
+
+    .custom-file-label:hover {
+        background-color: white; /* Цвет при наведении */
+        color: #54d3b6;
+        border: 2px solid #54d3b6;
+    }
+
+.delete-column {
+    width: 5%; /* Убедитесь, что ширина соответствует настройкам DataTables */
+    text-align: center; /* Центрирование содержимого */
+}
+
+.vsat-cell {
+    display: flex;
+    align-items: center;
+    width: 120px;
+}
+
+.vsat-edit {
+    flex: 1;
+    margin-right: 5px;
+}
+
+.vsat-icon-with-solution, .vsat-icon-without-solution {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+    margin-left: 2px;
+    margin-right: 2px;
+}
+
+.icon-update {
+    width: 22px;
+    height: 22px;
+    fill: currentColor;
+    background-color: #a2ebae;
+    border-radius: 50%;
+    padding: 2px;
+}
+
+
+.icon-update-no-solution {
+    width: 22px;
+    height: 22px;
+    fill: green;
+    background-color: #dde398;
+    border-radius: 50%;
+    padding: 2px;
+}
+
+/* Стили для Toast уведомлений */
+
+/* Контейнер для Toast уведомлений */
+.custom-toast-container {
+    position: fixed;
+    top: 1rem;
+    right: 1rem;
+    z-index: 1055; /* Выше, чем другие элементы, если необходимо */
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+}
+
+/* Само Toast уведомление */
+.custom-toast {
+    min-width: 250px;
+    max-width: 350px;
+    background-color: #ffffff;
+    color: #000000;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    border-left: 5px solid red; /* Акцентная полоса слева */
+    border-radius: 4px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    padding: 1rem;
+    margin-bottom: 0.5rem;
+    opacity: 0;
+    transform: translateX(100%);
+    transition: opacity 0.5s ease, transform 0.5s ease;
+    display: flex;
+    flex-direction: column;
+    cursor: pointer; /* Указатель курсора */
+    font-family: Gilroy-Medium;
+    border-radius: 15px
+}
+
+/* Заголовок Toast */
+.custom-toast-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 0.5rem;
+    font-family: Gilroy-SemiBold;
+    color: red;
+}
+
+/* Тело Toast */
+.custom-toast-body {
+    flex-grow: 1;
+    font-family: Gilroy;
+}
+
+/* Кнопка закрытия */
+.custom-toast-close {
+    background: none;
+    border: none;
+    font-size: 1.2rem;
+    line-height: 1;
+    color: #000000;
+    cursor: pointer;
+}
+
+/* Класс для отображения Toast */
+.custom-toast.show {
+    opacity: 1;
+    transform: translateX(0);
+}
+
+/* Анимация исчезновения */
+.custom-toast.hide {
+    opacity: 0;
+    transform: translateX(100%);
+}
+
+/* Стили для иконок */
+.icon_task {
+    width: 24px;
+    height: 24px;
+    fill: #ffffff; /* Цвет иконки */
+    cursor: pointer;
+    transition: transform 0.3s;
+    margin-left: 5px;
+}
+
+    /* Анимация поворота иконки при разворачивании */
+    .icon_task.active {
+        transform: rotate(180deg);
+        stroke: #03BE93;
+    }
+
+.task-icons {
+    display: flex;
+    align-items: center;
+    border: 1px solid #ccc;
+    padding: 2px;
+    border-radius: 7px;
+}
+
+/* Стили для заголовка задачи */
+.task-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+/* Стили для секций описания, комментариев и подзадач */
+.task-details > div {
+    margin-bottom: 10px;
+    border-radius: 10px;
+    border: 1px solid #ccc;
+}
+
+.task-description,
+.task-comments,
+.task-subtasks {
+    padding: 0px;
+    background-color: #f9f9f9;
+    margin-top: 10px;
+}
+
+.task-subtasks li {
+    margin-left: 25px;
+    
+}
+
+.completed-subtask {
+    text-decoration: line-through;
+}
+
+/* Если нужно, добавьте стили для активности иконок */
+
+
+.icon_task {
+    width: 20px;
+    height: auto;
+    fill: none;
+    stroke: #8A94A6;
+    stroke-width: 2;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    transition: all .3s ease;
+}
+
+    .icon_task:hover {
+        stroke: #03BE93;
+    }
+
+/* Контейнер для комментария */
+.comment-container {
+    display: flex;
+    align-items: flex-start;
+    margin-bottom: 10px;
+    gap: 10px;
+}
+
+/* Аватарка комментария */
+.comment-avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+/* Содержимое комментария */
+.comment-content {
+    display: flex;
+    flex-direction: column;
+}
+
+/* Контейнер для автора и даты */
+.author-date-container {
+    display: flex;
+    align-items: center;
+    margin-bottom: 5px;
+}
+
+/* Автор комментария */
+.comment-author {
+    font-weight: bold;
+    margin-right: 10px;
+}
+
+/* Дата комментария */
+.comment-date {
+    font-size: 12px;
+    color: gray;
+}
+
+/* Текст комментария */
+.comment-text {
+    line-height: 1.4;
+}
+
+/* Список комментариев */
+.comments-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.vsat-number {
+    font-weight: bold; /* Делает текст жирным */
+    
+}
+
+
