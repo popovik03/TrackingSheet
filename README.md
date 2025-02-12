@@ -15,13 +15,13 @@ ASP.Net MVC+WebAPI
 ********
 Главная страница - с быстрым добавлением новых записей в базу, телеграм чатом, списком и просмотром задач из Канбан-доски и погодным виджетом через внешний API.
 
-![Главное Окно](Screenshots/Main Window.JPG)
+![Главное Окно](Screenshots/MainWindow.JPG)
 ![Авторизация](Screenshots/Auth.JPG)
 ![Новая запись](Screenshots/Add.JPG)
-![Журнал](Screenshots/History Journal.JPG)
-![Журнал](Screenshots/History Journal Editing.JPG)
+![Журнал](Screenshots/HistoryJournal.JPG)
+![Журнал](Screenshots/HistoryJournalEditing.JPG)
 ![Выгрузка](Screenshots/Excel.JPG)
 ![Канбан](Screenshots/Kanban.JPG)
-![Канбан](Screenshots/Kanban Task.JPG)
+![Канбан](Screenshots/KanbanTask.JPG)
 ![Статистика](Screenshots/Statistics.JPG)
-![КНБК](Screenshots/BHA Vsat.JPG)
+![КНБК](Screenshots/BHAVsat.JPG)
